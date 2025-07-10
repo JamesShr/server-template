@@ -1,0 +1,46 @@
+{
+  "name": "@server-template/business-service",
+  "version": "0.0.1",
+  "private": true,
+  "nx": {
+    "name": "business-service",
+    "targets": {
+      "build": {
+        "executor": "nx:run-commands",
+        "options": {
+          "command": "webpack-cli build",
+          "args": [
+            "--node-env=production"
+          ]
+        },
+        "configurations": {
+          "development": {
+            "args": [
+              "--node-env=development"
+            ]
+          }
+        }
+      },
+      "serve": {
+        "continuous": true,
+        "executor": "@nx/js:node",
+        "defaultConfiguration": "development",
+        "dependsOn": [
+          "build"
+        ],
+        "options": {
+          "buildTarget": "business-service:build",
+          "runBuildTargetDependencies": false
+        },
+        "configurations": {
+          "development": {
+            "buildTarget": "business-service:build:development"
+          },
+          "production": {
+            "buildTarget": "business-service:build:production"
+          }
+        }
+      }
+    }
+  }
+}

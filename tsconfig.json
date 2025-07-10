@@ -1,0 +1,31 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compileOnSave": false,
+  "files": [],
+  "references": [
+    {
+      "path": "./apps/api-gateway"
+    },
+    {
+      "path": "./apps/business-service"
+    },
+    {
+      "path": "./apps/data-management"
+    },
+    {
+      "path": "./libs/microservice"
+    },
+    {
+      "path": "./libs/utils"
+    },
+    {
+      "path": "./libs/dtos"
+    },
+    {
+      "path": "./libs/enums"
+    },
+    {
+      "path": "./libs/interseptors"
+    }
+  ]
+}
