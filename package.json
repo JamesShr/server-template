@@ -2,7 +2,9 @@
   "name": "@server-template/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "infra": "docker compose -p server-template -f docker-compose.infra.yml up -d --build"
+  },
   "private": true,
   "dependencies": {
     "@nestjs/common": "^11.0.0",

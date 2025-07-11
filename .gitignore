@@ -50,3 +50,6 @@ apps/business-service/config/local.js
 apps/api-gateway/config/local.js
 
 .env
+
+pgbouncer/pgbouncer.ini
+pgbouncer/userlist.txt

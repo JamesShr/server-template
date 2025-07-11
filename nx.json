@@ -34,7 +34,11 @@
         "libs/utils/*",
         "libs/dtos/*",
         "libs/enums/*",
-        "libs/interseptors/*"
+        "libs/interseptors/*",
+        "libs/prisma-client/*",
+        "libs/interceptors/*",
+        "libs/prisma-schema-data-management/*",
+        "libs/prisma-client-data-management/*"
       ]
     },
     {
@@ -71,7 +75,11 @@
         "libs/utils/*",
         "libs/dtos/*",
         "libs/enums/*",
-        "libs/interseptors/*"
+        "libs/interseptors/*",
+        "libs/prisma-client/*",
+        "libs/interceptors/*",
+        "libs/prisma-schema-data-management/*",
+        "libs/prisma-client-data-management/*"
       ],
       "options": {
         "typecheck": {
