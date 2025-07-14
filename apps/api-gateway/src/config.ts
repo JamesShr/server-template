@@ -1,5 +1,5 @@
 import config from 'config';
-import { ClientProviderOptions } from '@nestjs/microservices';
+import { MicroserviceOptions } from '@nestjs/microservices';
 import { RedisOptions } from 'ioredis';
 
 export const INFO_VERSION = config.get('version') as string;
@@ -8,10 +8,10 @@ export const INFO_VERSION = config.get('version') as string;
 export const PORT_HTTP = config.get('port.http') as number;
 
 // microservices
-export const MICROSERVICE_NAME = config.get('microservice.name') as string;
+export const MICROSERVICE_NAME = config.get('microservice.apiGateway.name') as string;
 export const MICROSERVICE_CONNECT_CONF = config.get(
   'microservice.connect',
-) as ClientProviderOptions;
+) as MicroserviceOptions;
 export const MICROSERVICE_BUSINESS_SERVICE_NAME = config.get(
   'microservice.businessService.name',
 ) as string;

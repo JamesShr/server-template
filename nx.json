@@ -38,7 +38,8 @@
         "libs/prisma-client/*",
         "libs/interceptors/*",
         "libs/prisma-schema-data-management/*",
-        "libs/prisma-client-data-management/*"
+        "libs/prisma-client-data-management/*",
+        "libs/redis/*"
       ]
     },
     {
@@ -79,7 +80,8 @@
         "libs/prisma-client/*",
         "libs/interceptors/*",
         "libs/prisma-schema-data-management/*",
-        "libs/prisma-client-data-management/*"
+        "libs/prisma-client-data-management/*",
+        "libs/redis/*"
       ],
       "options": {
         "typecheck": {
@@ -91,6 +93,11 @@
   "targetDefaults": {
     "test": {
       "dependsOn": ["^build"]
+    },
+    "@nx/js:tsc": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
     }
   }
 }

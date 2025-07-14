@@ -1,4 +1,18 @@
 module.exports = {
+  port: {
+    http: {
+      __name: 'PORT_HTTP',
+      __format: 'json',
+    },
+  },
+
+  database: {
+    dataManagement: {
+      url: 'DATABASE_DATA_MANAGEMENT_URL',
+    },
+  },
+
+
   redis: {
     host: 'REDIS_HOST',
     port: {
@@ -13,7 +27,6 @@ module.exports = {
   },
 
   microservice: {
-    name: 'MICROSERVICE_NAME',
     connect: {
       transport: {
         __name: 'MICROSERVICE_CONNECT_TRANSPORT',
@@ -39,6 +52,12 @@ module.exports = {
           __format: 'json',
         },
       },
+    },
+    apiGateway: {
+      name: 'MICROSERVICE_API_GATEWAY_NAME',
+    },
+    businessService: {
+      name: 'MICROSERVICE_BUSINESS_SERVICE_NAME',
     },
     dataManagement: {
       name: 'MICROSERVICE_DATA_MANAGEMENT_NAME',

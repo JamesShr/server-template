@@ -3,7 +3,15 @@ const { version } = require('../package.json');
 
 module.exports = {
   version,
-  port: 3000,
+  port: {
+    http: 3000,
+  },
+
+  database: {
+    dataManagement: {
+      url: 'postgresql://user:password@localhost:5432/data_management?schema=public',
+    },
+  },
 
   redis: {
     host: '127.0.0.1',
@@ -13,7 +21,6 @@ module.exports = {
   },
 
   microservice: {
-    name: 'API_GATEWAY',
     connect: {
       transport: 1, // REDIS
       options: {
@@ -25,8 +32,14 @@ module.exports = {
         retryDelay: 3000, // 每次重試間隔 3 秒
       },
     },
+    apiGateway: {
+      name: 'API_GATEWAY',
+    },
     businessService: {
       name: 'BUSINESS_SERVICE',
+    },
+    dataManagement: {
+      name: 'DATA_MANAGEMENT',
     },
   },
 };

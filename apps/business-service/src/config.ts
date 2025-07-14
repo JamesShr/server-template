@@ -1,14 +1,14 @@
 import config from 'config';
-import { ClientProviderOptions } from '@nestjs/microservices';
+import { MicroserviceOptions } from '@nestjs/microservices';
 import { RedisOptions } from 'ioredis';
 
 export const INFO_VERSION = config.get('version') as string;
 
 // microservices
-export const MICROSERVICE_NAME = config.get('microservice.name') as string;
+export const MICROSERVICE_NAME = config.get('microservice.businessService.name') as string;
 export const MICROSERVICE_CONNECT_CONF = config.get(
   'microservice.connect',
-) as ClientProviderOptions;
+) as MicroserviceOptions;
 export const MICROSERVICE_DATA_MANAGEMENT_NAME = config.get(
   'microservice.dataManagement.name',
 ) as string;

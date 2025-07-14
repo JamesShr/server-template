@@ -1,17 +1,17 @@
 import config from 'config';
-import { ClientProviderOptions } from '@nestjs/microservices';
+import { MicroserviceOptions } from '@nestjs/microservices';
 import { RedisOptions } from 'ioredis';
 
 export const INFO_VERSION = config.get('version') as string;
 
 //database
-export const DATABASE_URL = config.get('database.url') as string;
+export const DATABASE_URL = config.get('database.dataManagement.url') as string;
 
 // microservices
-export const MICROSERVICE_NAME = config.get('microservice.name') as string;
+export const MICROSERVICE_NAME = config.get('microservice.dataManagement.name') as string;
 export const MICROSERVICE_CONNECT_CONF = config.get(
   'microservice.connect',
-) as ClientProviderOptions;
+) as MicroserviceOptions;
 
 // redis
 export const REDIS_CONFIG = config.get('redis') as RedisOptions;

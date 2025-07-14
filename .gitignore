@@ -45,11 +45,11 @@ Thumbs.db
 
 test-output
 
-apps/data-management/config/local.js
-apps/business-service/config/local.js
-apps/api-gateway/config/local.js
+config/local.js
 
 .env
 
 pgbouncer/pgbouncer.ini
 pgbouncer/userlist.txt
+
+generated
