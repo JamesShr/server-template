@@ -13,8 +13,8 @@ COPY . .
 # Optional: Only generate client for specific services
 RUN npx prisma generate --schema=libs/prisma/schema/data-management/schema.prisma
 
-# Build specific app (api-gateway)
-RUN npx nx build api-gateway
+# Build specific app (data-management)
+RUN npx nx build data-management
 
 # ==== RUNTIME STAGE ====
 FROM node:20-alpine
@@ -35,10 +35,10 @@ COPY config/ ./config
 COPY --from=builder /app/libs/prisma ./libs/prisma
 
 # Copy built dist
-COPY --from=builder /app/dist/apps/api-gateway ./dist
+COPY --from=builder /app/dist/apps/data-management ./dist
 
 # Optional: entry script
-COPY apps/api-gateway/scripts ./scripts
+COPY apps/data-management/scripts ./scripts
 RUN chmod +x ./scripts/*.sh
 
 # 若有 uploads 或其他資料夾也要預設建立好
