@@ -7,6 +7,8 @@ import {
 } from '@nestjs/common';
 import { ClientProxy, ClientProxyFactory } from '@nestjs/microservices';
 import { catchError, lastValueFrom, throwError, timeout } from 'rxjs';
+import { CreatePostDto, CreateUserDto } from '@server-template/dtos';
+import { Post, User } from '@server-template/prisma';
 
 @Injectable()
 export class BusinessServiceRpcService implements OnApplicationBootstrap {
@@ -27,6 +29,16 @@ export class BusinessServiceRpcService implements OnApplicationBootstrap {
   // healthcheck
   async healthcheck(): Promise<string> {
     return await this.send('healthcheck', {});
+  }
+
+  // blog create user
+  async blogCreateUser(user: CreateUserDto): Promise<User> {
+    return await this.send('blog.createUser', user);
+  }
+
+  // blog create post
+  async blogCreatePost(post: CreatePostDto): Promise<Post> {
+    return await this.send('blog.createPost', post);
   }
 
   private async send(topic: string, data: any): Promise<any> {

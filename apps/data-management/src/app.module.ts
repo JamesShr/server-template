@@ -1,13 +1,14 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
-import { DataManagementPrismaClientModule } from '@server-template/prisma';
-import { DATABASE_URL } from './config';
+import { CommonModule } from './modules/common/common.module';
+import { UserModule } from './modules/user/user.module';
+import { PostModule } from './modules/post/post.module';
 
 @Module({
   imports: [
-    DataManagementPrismaClientModule.forRoot({
-      url: DATABASE_URL,
-    }),
+    CommonModule,
+    UserModule,
+    PostModule,
   ],
   controllers: [AppController],
   providers: [],

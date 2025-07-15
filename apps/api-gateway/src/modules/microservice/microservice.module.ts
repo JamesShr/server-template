@@ -13,5 +13,6 @@ import {
       connect: MICROSERVICE_CONNECT_CONF,
     }),
   ],
+  exports: [BusinessServiceModule],
 })
 export class MicroserviceModule {}

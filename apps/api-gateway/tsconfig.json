@@ -10,6 +10,9 @@
       "path": "../../libs/microservice"
     },
     {
+      "path": "../../libs/dtos"
+    },
+    {
       "path": "../../libs/interceptors"
     },
     {

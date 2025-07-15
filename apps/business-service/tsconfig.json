@@ -7,6 +7,12 @@
       "path": "../../libs/redis"
     },
     {
+      "path": "../../libs/microservice"
+    },
+    {
+      "path": "../../libs/dtos"
+    },
+    {
       "path": "./tsconfig.app.json"
     }
   ]

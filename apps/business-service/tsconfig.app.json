@@ -14,6 +14,12 @@
   "references": [
     {
       "path": "../../libs/redis/tsconfig.lib.json"
+    },
+    {
+      "path": "../../libs/microservice/tsconfig.lib.json"
+    },
+    {
+      "path": "../../libs/dtos/tsconfig.lib.json"
     }
   ]
 }
