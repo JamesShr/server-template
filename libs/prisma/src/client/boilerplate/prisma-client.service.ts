@@ -4,12 +4,10 @@ import {
   OnModuleDestroy,
   OnModuleInit,
 } from '@nestjs/common';
-import {
-  PrismaClient,
-} from '@server-template/prisma-schema-data-management';
+import { PrismaClient } from './generated';
 
 @Injectable()
-export class PrismaService
+export class PrismaClientService
   extends PrismaClient
   implements OnModuleInit, OnModuleDestroy
 {
@@ -17,7 +15,7 @@ export class PrismaService
     const connOptions = Object.assign(
       {},
       {
-        url: 'postgresql://user:password@localhost:5432/data_management?schema=public',
+        url: 'postgresql://user:password@localhost:5432/db?schema=public',
       },
       options
     );

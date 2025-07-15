@@ -7,10 +7,10 @@ import {
   ClientsModule,
   MicroserviceOptions,
 } from '@nestjs/microservices';
-import { BusinessServiceRpcService } from './rpc.service';
+import { DataManagementServiceRpcService } from './rpc.service';
 
 @Module({})
-export class BusinessServiceModule {
+export class DataManagementServiceModule {
   static forRoot(options: {
     name: string;
     connect: MicroserviceOptions;
@@ -23,16 +23,16 @@ export class BusinessServiceModule {
     };
 
     const rpcServiceProvider: Provider = {
-      provide: BusinessServiceRpcService,
+      provide: DataManagementServiceRpcService,
       useFactory: (client: ClientProxy) =>
-        new BusinessServiceRpcService(options.name, client),
+        new DataManagementServiceRpcService(options.name, client),
       inject: [clientProxyToken],
     };
 
     return {
-      module: BusinessServiceModule,
+      module: DataManagementServiceModule,
       providers: [clientProxyProvider, rpcServiceProvider],
-      exports: [BusinessServiceRpcService],
+      exports: [DataManagementServiceRpcService],
     };
   }
 }

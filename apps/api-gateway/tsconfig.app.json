@@ -26,6 +26,9 @@
     },
     {
       "path": "../../libs/microservice/tsconfig.lib.json"
+    },
+    {
+      "path": "../../libs/interceptors/tsconfig.lib.json"
     }
   ]
 }

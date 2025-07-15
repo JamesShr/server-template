@@ -15,9 +15,5 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": ["src/**/*.ts"],
-  "references": [
-    {
-      "path": "../prisma-schema-data-management/tsconfig.lib.json"
-    }
-  ]
+  "references": []
 }

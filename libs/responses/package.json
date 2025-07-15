@@ -1,5 +1,5 @@
 {
-  "name": "@server-template/prisma-client-data-management",
+  "name": "@server-template/responses",
   "version": "0.0.1",
   "private": true,
   "main": "./src/index.ts",
@@ -13,7 +13,7 @@
     "./package.json": "./package.json"
   },
   "nx": {
-    "name": "prisma-client-data-management"
+    "name": "responses"
   },
   "dependencies": {}
 }

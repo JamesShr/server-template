@@ -28,13 +28,13 @@
       "path": "./libs/interceptors"
     },
     {
-      "path": "./libs/prisma-schema-data-management"
-    },
-    {
-      "path": "./libs/prisma-client-data-management"
-    },
-    {
       "path": "./libs/redis"
+    },
+    {
+      "path": "./libs/responses"
+    },
+    {
+      "path": "./libs/prisma"
     }
   ]
 }

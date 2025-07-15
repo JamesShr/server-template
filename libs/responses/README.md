@@ -1,3 +1,3 @@
-# prisma-schema-data-management
+# responses
 
 This library was generated with [Nx](https://nx.dev).

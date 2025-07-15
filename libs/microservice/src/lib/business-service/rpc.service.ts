@@ -9,7 +9,7 @@ import { ClientProxy, ClientProxyFactory } from '@nestjs/microservices';
 import { catchError, lastValueFrom, throwError, timeout } from 'rxjs';
 
 @Injectable()
-export class RpcService implements OnApplicationBootstrap {
+export class BusinessServiceRpcService implements OnApplicationBootstrap {
   constructor(
     private readonly name: string,
     private readonly client: ClientProxy
