@@ -1,0 +1,52 @@
+version: "3"
+services:
+  api-gateway:
+    build:
+      context: .
+      dockerfile: apps/api-gateway/Dockerfile
+    image: api-gateway
+    environment:
+      - PORT_HTTP=3000
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_DB=0
+      - REDIS_PASSWORD=password
+      - MICROSERVICE_CONNECT_TRANSPORT=1
+      - MICROSERVICE_CONNECT_OPTIONS_HOST=127.0.0.1
+      - MICROSERVICE_CONNECT_OPTIONS_PORT=6379
+      - MICROSERVICE_CONNECT_OPTIONS_DB=0
+      - MICROSERVICE_CONNECT_OPTIONS_PASSWORD=password
+      - MICROSERVICE_CONNECT_OPTIONS_RETRY_ATTEMPTS=10
+      - MICROSERVICE_CONNECT_OPTIONS_RETRY_DELAY=3000
+      - MICROSERVICE_BUSINESS_SERVICE_NAME=BUSINESS_SERVICE
+      - NODE_ENV=production
+    ports:
+      - 3000:3000
+    # depends_on:
+    #   - pgbouncer
+    #   - redis
+
+  # db:
+  #   image: timescale/timescaledb:latest-pg12
+  #   environment:
+  #     - POSTGRES_USER=user
+  #     - POSTGRES_PASSWORD=password
+  #     - POSTGRES_DB=db
+  #   expose:
+  #     - 5432
+
+  # pgbouncer:
+  #   image: edoburu/pgbouncer
+  #   ports:
+  #     - "6432:6432"
+  #   volumes:
+  #     - ./pgbouncer.ini:/etc/pgbouncer/pgbouncer.ini
+  #     - ./userlist.txt:/etc/pgbouncer/userlist.txt
+  #   command: ["pgbouncer", "/etc/pgbouncer/pgbouncer.ini"]
+  #   depends_on:
+  #     - db
+
+  # redis:
+  #   image: redis:latest
+  #   ports:
+  #     - 6379:6379
