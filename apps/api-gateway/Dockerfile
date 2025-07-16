@@ -1,27 +1,14 @@
 # ==== BUILD STAGE ====
-FROM node:20 AS builder
+FROM node:20-alpine AS builder
 
 WORKDIR /app
-RUN ls -al && sleep 10
-# Copy global deps
-COPY package*.json ./
-RUN npm install
-RUN ls -al && sleep 10
-# Copy all project files (Nx repo)
+
 COPY . .
-RUN ls -al && sleep 10
-COPY apps ./apps
-RUN ls -al && sleep 10
-COPY libs ./libs
 
+RUN npm install
 
-RUN ls -al && sleep 10
-
-RUN echo "看看 prisma schema 是否存在"
-RUN find libs/prisma/schema/data-management
-
-# Optional: Only generate client for specific services
-RUN npx prisma generate --schema=libs/prisma/schema/data-management/schema.prisma
+# # Optional: Only generate client for specific services
+# RUN npx prisma generate --schema=libs/prisma/src/schema/data-management/schema.prisma
 
 # Build specific app (api-gateway)
 RUN npx nx build api-gateway
@@ -41,11 +28,11 @@ COPY --from=builder /app/node_modules ./node_modules
 
 COPY --from=builder /app/config/ ./config
 
-# Copy prisma (if your app runs prisma CLI or uses .env)
-COPY --from=builder /app/libs/prisma ./libs/prisma
+# # Copy prisma (if your app runs prisma CLI or uses .env)
+# COPY --from=builder /app/libs/prisma ./libs/prisma
 
 # Copy built dist
-COPY --from=builder /app/dist/apps/api-gateway ./dist
+COPY --from=builder /app/apps/api-gateway/dist ./dist
 
 # Optional: entry script
 COPY --from=builder /app/apps/api-gateway/scripts/ ./scripts

@@ -1,17 +1,14 @@
 # ==== BUILD STAGE ====
-FROM node:20 AS builder
+FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Copy global deps
-COPY package*.json ./
-RUN npm install
-
-# Copy all project files (Nx repo)
 COPY . .
 
+RUN npm install
+
 # Optional: Only generate client for specific services
-RUN npx prisma generate --schema=libs/prisma/schema/data-management/schema.prisma
+RUN npx prisma generate --schema=libs/prisma/src/schema/data-management/schema.prisma
 
 # Build specific app (data-management)
 RUN npx nx build data-management
@@ -29,16 +26,16 @@ RUN apk update && \
 COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/node_modules ./node_modules
 
-COPY config/ ./config
+COPY --from=builder /app/config/ ./config
 
 # Copy prisma (if your app runs prisma CLI or uses .env)
 COPY --from=builder /app/libs/prisma ./libs/prisma
 
 # Copy built dist
-COPY --from=builder /app/dist/apps/data-management ./dist
+COPY --from=builder /app/apps/data-management/dist ./dist
 
 # Optional: entry script
-COPY apps/data-management/scripts ./scripts
+COPY --from=builder /app/apps/data-management/scripts/ ./scripts
 RUN chmod +x ./scripts/*.sh
 
 # 若有 uploads 或其他資料夾也要預設建立好
@@ -48,4 +45,4 @@ RUN mkdir -p /app/uploads && chown -R node:node /app/uploads
 USER node
 
 # Entry
-ENTRYPOINT ["/usr/bin/dumb-init", "--", "node", "dist/main.js"]
+ENTRYPOINT ["/usr/bin/dumb-init", "--", "./scripts/entry.sh"]

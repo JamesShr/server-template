@@ -3,7 +3,11 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "infra": "docker compose -p server-template -f docker-compose.infra.yml up -d --build"
+    "docker:dev": "docker compose -p server-template -f docker-compose.yml up",
+    "docker:up": "docker compose -p server-template -f docker-compose.yml up -d --build",
+    "docker:down": "docker compose -p server-template -f docker-compose.yml down",
+    "docker:infra:up": "docker compose -p server-template -f docker-compose.infra.yml up -d --build",
+    "docker:infra:down": "docker compose -p server-template -f docker-compose.infra.yml down"
   },
   "private": true,
   "dependencies": {
