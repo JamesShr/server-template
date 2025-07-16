@@ -9,7 +9,7 @@ module.exports = {
 
   database: {
     dataManagement: {
-      url: 'postgresql://user:password@localhost:5432/data_management?schema=public',
+      url: 'postgresql://user:password@localhost:6432/data_management?schema=public',
     },
   },
 

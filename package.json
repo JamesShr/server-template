@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
+    "init": "node init.js",
     "docker:dev": "docker compose -p server-template -f docker-compose.yml up",
     "docker:up": "docker compose -p server-template -f docker-compose.yml up -d --build",
     "docker:down": "docker compose -p server-template -f docker-compose.yml down",
