@@ -1,0 +1,57 @@
+{
+  "name": "@server-template/plugins",
+  "version": "0.0.1",
+  "private": true,
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "development": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "nx": {
+    "name": "plugins",
+    "targets": {
+      "build": {
+        "executor": "@nx/js:tsc",
+        "outputs": [
+          "{options.outputPath}"
+        ],
+        "options": {
+          "outputPath": "plugins/dist",
+          "main": "plugins/src/index.ts",
+          "tsConfig": "plugins/tsconfig.lib.json",
+          "rootDir": "plugins/src",
+          "generatePackageJson": false,
+          "assets": [
+            {
+              "input": "./plugins/src",
+              "glob": "**/!(*.ts)",
+              "output": "."
+            },
+            {
+              "input": "./plugins/src",
+              "glob": "**/*.d.ts",
+              "output": "."
+            }
+          ]
+        }
+      }
+    }
+  },
+  "dependencies": {
+    "@nx/devkit": "21.3.2",
+    "tslib": "^2.3.0"
+  },
+  "generators": "./generators.json",
+  "files": [
+    "dist",
+    "!**/*.tsbuildinfo",
+    "generators.json"
+  ]
+}

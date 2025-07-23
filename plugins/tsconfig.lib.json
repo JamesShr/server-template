@@ -1,0 +1,13 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "rootDir": "src",
+    "outDir": "dist",
+    "tsBuildInfoFile": "dist/tsconfig.lib.tsbuildinfo",
+    "emitDeclarationOnly": false,
+    "types": ["node"]
+  },
+  "include": ["src/**/*.ts", "src/generators/data-management/prisma/client/prisma-client.service.ts.template", "src/generators/data-management/prisma/client/prisma-client.module.ts.template", "src/generators/data-management/prisma/client/index.ts.template", "src/generators/data-management/files/src/main.ts.template"],
+  "references": []
+}

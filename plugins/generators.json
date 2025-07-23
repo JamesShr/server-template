@@ -1,0 +1,19 @@
+{
+  "generators": {
+    "api-gateway": {
+      "factory": "./dist/generators/api-gateway/api-gateway",
+      "schema": "./dist/generators/api-gateway/schema.json",
+      "description": "api-gateway generator"
+    },
+    "business-service": {
+      "factory": "./dist/generators/business-service/business-service",
+      "schema": "./dist/generators/business-service/schema.json",
+      "description": "business-service generator"
+    },
+    "data-management": {
+      "factory": "./dist/generators/data-management/data-management",
+      "schema": "./dist/generators/data-management/schema.json",
+      "description": "data-management generator"
+    }
+  }
+}

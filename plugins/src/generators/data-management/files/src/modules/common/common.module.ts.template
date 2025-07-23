@@ -1,0 +1,16 @@
+import { Global, Module } from '@nestjs/common';
+import { RedisModule } from '@server-template/redis';
+import { DATABASE_URL, REDIS_CONFIG } from '../../config';
+import { <%= moduleName %>PrismaClientModule } from '@server-template/prisma';
+
+@Global()
+@Module({
+  imports: [
+    RedisModule.forRoot(REDIS_CONFIG),
+    <%= moduleName %>PrismaClientModule.forRoot({
+      url: DATABASE_URL,
+    }),
+  ],
+  exports: [RedisModule, <%= moduleName %>PrismaClientModule],
+})
+export class CommonModule {}
