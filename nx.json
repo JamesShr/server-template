@@ -65,7 +65,8 @@
       "exclude": [
         "apps/api-gateway-e2e/**/*",
         "apps/business-service-e2e/**/*",
-        "apps/data-management-e2e/**/*"
+        "apps/data-management-e2e/**/*",
+        "apps/account-management-e2e/**/*"
       ]
     },
     {

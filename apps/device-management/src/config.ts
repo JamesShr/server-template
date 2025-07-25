@@ -5,12 +5,16 @@ import { RedisOptions } from 'ioredis';
 export const INFO_VERSION = config.get('version') as string;
 
 //database
-export const DATABASE_URL = config.get('database.<%= variableName %>.url') as string;
+export const DATABASE_URL = config.get(
+  'database.deviceManagement.url'
+) as string;
 
 // microservices
-export const MICROSERVICE_NAME = config.get('microservice.<%= variableName %>.name') as string;
+export const MICROSERVICE_NAME = config.get(
+  'microservice.deviceManagement.name'
+) as string;
 export const MICROSERVICE_CONNECT_CONF = config.get(
-  'microservice.connect',
+  'microservice.connect'
 ) as MicroserviceOptions;
 
 // redis

@@ -1,0 +1,46 @@
+{
+  "name": "@server-template/device-management",
+  "version": "0.0.1",
+  "private": true,
+  "nx": {
+    "name": "device-management",
+    "targets": {
+      "build": {
+        "executor": "nx:run-commands",
+        "options": {
+          "command": "webpack-cli build",
+          "args": [
+            "--node-env=production"
+          ]
+        },
+        "configurations": {
+          "development": {
+            "args": [
+              "--node-env=development"
+            ]
+          }
+        }
+      },
+      "serve": {
+        "continuous": true,
+        "executor": "@nx/js:node",
+        "defaultConfiguration": "development",
+        "dependsOn": [
+          "build"
+        ],
+        "options": {
+          "buildTarget": "device-management:build",
+          "runBuildTargetDependencies": false
+        },
+        "configurations": {
+          "development": {
+            "buildTarget": "device-management:build:development"
+          },
+          "production": {
+            "buildTarget": "device-management:build:production"
+          }
+        }
+      }
+    }
+  }
+}

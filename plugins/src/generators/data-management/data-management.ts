@@ -7,6 +7,8 @@ import {
   formatFiles,
 } from '@nx/devkit';
 import * as path from 'path';
+import { execSync } from 'child_process';
+import * as fs from 'fs';
 
 interface ApplicationGeneratorSchema {
   name: string;
@@ -25,6 +27,16 @@ export default async function (tree: Tree, schema: ApplicationGeneratorSchema) {
   const moduleName = formattedName.replace(/(^|-)([a-z])/g, (match, p1, p2) =>
     p2.toUpperCase()
   ); //單字第一個字大寫，其他小寫，例如：data-management -> DataManagement
+  const variableName = formattedName
+    .split('-') // 以連字符分割字符串
+    .map((word, index) => {
+      // 將第一個單詞保持小寫，其他單詞的首字母轉大寫
+      if (index === 0) {
+        return word.toLowerCase(); // 保持第一個單詞的小寫
+      }
+      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(); // 首字母大寫，其他小寫
+    })
+    .join(''); //單字第一個字小寫，其他小寫，例如：data-management -> dataManagement
 
   const templateOptions = {
     name: names(name).name,
@@ -33,6 +45,7 @@ export default async function (tree: Tree, schema: ApplicationGeneratorSchema) {
     dbName: dbName,
     offsetFromRoot: offsetFromRoot(tree.root),
     moduleName: moduleName,
+    variableName: variableName,
   };
 
   // use for array to handle multiple folder path
@@ -60,9 +73,9 @@ export default async function (tree: Tree, schema: ApplicationGeneratorSchema) {
 
   for (const item of items) {
     const targetDirectory = joinPathFragments(item.path, directory || '', name);
-    if (item.createDirectory) {
-      tree.write(targetDirectory, '');
-    }
+    // if (item.createDirectory) {
+    //   tree.write(targetDirectory, '');
+    // }
 
     // 清空目標目錄中的 src 資料夾
     const clearDirectory = joinPathFragments(
@@ -97,23 +110,42 @@ export default async function (tree: Tree, schema: ApplicationGeneratorSchema) {
       export type * from './client/<%= name %>';
    */
 
-      if (tree.exists(indexPath)) {
-        const indexFile = tree.read(indexPath, 'utf-8');
-        
-        // 檢查檔案中是否已經有我們要添加的 export
-        const newExport = `
+  if (tree.exists(indexPath)) {
+    const indexFile = tree.read(indexPath, 'utf-8');
+
+    // 檢查檔案中是否已經有我們要添加的 export
+    const newExport = `
           export {
             PrismaClientModule as ${moduleName}PrismaClientModule,
             PrismaClientService as ${moduleName}PrismaClientService,
           } from './client/${name}';
-          export type * from './client/${name}';
+          // export type * from './client/${name}';
         `;
-    
-        if (indexFile && !indexFile.includes(newExport)) {
-          const updatedContent = `${indexFile}\n${newExport}\n`; // 在檔案末尾添加新的 export 內容
-          tree.write(indexPath, updatedContent); // 寫回檔案
-        }
-      }
+
+    if (indexFile && !indexFile.includes(newExport)) {
+      const updatedContent = `${indexFile}\n${newExport}\n`; // 在檔案末尾添加新的 export 內容
+      tree.write(indexPath, updatedContent); // 寫回檔案
+    }
+  }
+
+  const schemaPath = path.resolve(`libs/prisma/src/schema/${name}/schema.prisma`);
+
+  // 確保 Prisma schema 文件已存在
+  if (fs.existsSync(schemaPath)) {
+    console.log(`Prisma schema for ${name} found, running migration...`);
+
+    // 執行 Prisma migrate 和生成 Prisma 客戶端
+    try {
+      execSync(`npx prisma generate --schema=${schemaPath}`, {
+        stdio: 'inherit',
+      });
+      console.log(`Prisma migration for ${name} executed successfully.`);
+    } catch (error: any) {
+      console.error(`Error executing Prisma migration for ${name}:`, error);
+    }
+  } else {
+    console.error(`Prisma schema for ${name} not found at ${schemaPath}`);
+  }
 
   // 格式化生成的檔案
   await formatFiles(tree);

@@ -5,3 +5,15 @@ export {
   PrismaClientService as DataManagementPrismaClientService,
 } from './client/data-management';
 export type { Post, User } from './client/data-management';
+
+export {
+  PrismaClientModule as DeviceManagementPrismaClientModule,
+  PrismaClientService as DeviceManagementPrismaClientService,
+} from './client/device-management';
+// export type * from './client/device-management';
+
+export {
+  PrismaClientModule as AccountManagementPrismaClientModule,
+  PrismaClientService as AccountManagementPrismaClientService,
+} from './client/account-management';
+// export type * from './client/account-management';
