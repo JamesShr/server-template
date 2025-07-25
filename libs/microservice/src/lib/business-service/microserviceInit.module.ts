@@ -1,10 +1,8 @@
-import { DynamicModule, Inject, Module, Provider } from '@nestjs/common';
+import { DynamicModule, Module, Provider } from '@nestjs/common';
 import {
   ClientOptions,
-  ClientProviderOptions,
   ClientProxy,
   ClientProxyFactory,
-  ClientsModule,
   MicroserviceOptions,
 } from '@nestjs/microservices';
 import { BusinessServiceRpcService } from './rpc.service';

@@ -16,10 +16,24 @@ interface ApplicationGeneratorSchema {
 export default async function (tree: Tree, schema: ApplicationGeneratorSchema) {
   const { name, directory } = schema;
 
-   // 計算不同格式的變數
-   const formattedName = names(name).name; 
-   const rpcName = formattedName.toUpperCase().replace(/-/g, '_'); 
-   const dbName = formattedName.replace(/([a-z])([A-Z])/g, '$1_$2').toLowerCase(); 
+  // 計算不同格式的變數
+  const formattedName = names(name).name;
+  const rpcName = formattedName.toUpperCase().replace(/-/g, '_');
+  const dbName = formattedName
+    .replace(/([a-z])([A-Z])/g, '$1_$2')
+    .toLowerCase();
+  const moduleName = formattedName.replace(/(^|-)([a-z])/g, (match, p1, p2) =>
+    p2.toUpperCase()
+  );
+  const variableName = formattedName
+    .split('-')
+    .map((word, index) => {
+      if (index === 0) {
+        return word.toLowerCase();
+      }
+      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    })
+    .join('');
 
   const templateOptions = {
     name: names(name).name,
@@ -27,28 +41,48 @@ export default async function (tree: Tree, schema: ApplicationGeneratorSchema) {
     rpcName: rpcName,
     dbName: dbName,
     offsetFromRoot: offsetFromRoot(tree.root),
+    moduleName: moduleName,
+    variableName: variableName,
   };
 
-  const targetDirectory = joinPathFragments('apps', directory || '', name);
+  // use for array to handle multiple folder path
 
-  // 清空目標目錄中的 src 資料夾
-  const srcDirectory = joinPathFragments(targetDirectory, 'src');
-  
-  // 如果 src 目錄存在，刪除所有檔案
-  if (tree.exists(srcDirectory)) {
-    tree.children(srcDirectory).forEach(child => {
-      const filePath = joinPathFragments(srcDirectory, child);
-      tree.delete(filePath);
-    });
+  const items = [
+    {
+      path: 'apps',
+      clearDirectory: 'src',
+      copyFolder: './files',
+      createDirectory: false,
+    },
+  ];
+
+  for (const item of items) {
+    const targetDirectory = joinPathFragments(item.path, directory || '', name);
+    // if (item.createDirectory) {
+    //   tree.write(targetDirectory, '');
+    // }
+
+    // 清空目標目錄中的 src 資料夾
+    const clearDirectory = joinPathFragments(
+      targetDirectory,
+      item.clearDirectory
+    );
+
+    // 如果 src 目錄存在，刪除所有檔案
+    if (tree.exists(clearDirectory)) {
+      tree.children(clearDirectory).forEach((child) => {
+        const filePath = joinPathFragments(clearDirectory, child);
+        tree.delete(filePath);
+      });
+    }
+
+    generateFiles(
+      tree,
+      path.join(__dirname, item.copyFolder),
+      targetDirectory,
+      templateOptions
+    );
   }
-
-  // 複製自訂的檔案到目標目錄
-  generateFiles(
-    tree,
-    path.join(__dirname, './files'),
-    targetDirectory,
-    templateOptions
-  );
 
   // 格式化生成的檔案
   await formatFiles(tree);

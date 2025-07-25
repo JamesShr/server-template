@@ -69,6 +69,12 @@ export default async function (tree: Tree, schema: ApplicationGeneratorSchema) {
       copyFolder: './prisma/client',
       createDirectory: true,
     },
+    {
+      path: 'libs/microservice/src/lib',
+      clearDirectory: '',
+      copyFolder: './microservice',
+      createDirectory: true,
+    },
   ];
 
   for (const item of items) {
@@ -99,16 +105,32 @@ export default async function (tree: Tree, schema: ApplicationGeneratorSchema) {
     );
   }
 
+  // 編輯 libs/microservice/src/index.ts 補上 export 內容
+  const microserviceIndexPath = joinPathFragments(
+    'libs',
+    'microservice',
+    'src',
+    'index.ts'
+  );
+
+  if (tree.exists(microserviceIndexPath)) {
+    const indexFile = tree.read(microserviceIndexPath, 'utf-8');
+
+    // 檢查檔案中是否已經有我們要添加的 export
+    const newExport = `
+          // ${name}
+          export * from './lib/${name}/microserviceInit.module';
+          export * from './lib/${name}/rpc.service';
+        `;
+
+    if (indexFile && !indexFile.includes(newExport)) {
+      const updatedContent = `${indexFile}\n${newExport}\n`; // 在檔案末尾添加新的 export 內容
+      tree.write(microserviceIndexPath, updatedContent); // 寫回檔案
+    }
+  }
+
   // 編輯 libs/prisma/src/index.ts 補上 export 內容
   const indexPath = joinPathFragments('libs', 'prisma', 'src', 'index.ts');
-  /**
-   * 
-   * export {
-        PrismaClientModule as <%= moduleName %>PrismaClientModule,
-        PrismaClientService as <%= moduleName %>PrismaClientService,
-      } from './client/<%= name %>';
-      export type * from './client/<%= name %>';
-   */
 
   if (tree.exists(indexPath)) {
     const indexFile = tree.read(indexPath, 'utf-8');
@@ -128,7 +150,12 @@ export default async function (tree: Tree, schema: ApplicationGeneratorSchema) {
     }
   }
 
-  const schemaPath = path.resolve(`libs/prisma/src/schema/${name}/schema.prisma`);
+  // 格式化生成的檔案
+  await formatFiles(tree);
+
+  const schemaPath = path.resolve(
+    `libs/prisma/src/schema/${name}/schema.prisma`
+  );
 
   // 確保 Prisma schema 文件已存在
   if (fs.existsSync(schemaPath)) {
@@ -146,7 +173,4 @@ export default async function (tree: Tree, schema: ApplicationGeneratorSchema) {
   } else {
     console.error(`Prisma schema for ${name} not found at ${schemaPath}`);
   }
-
-  // 格式化生成的檔案
-  await formatFiles(tree);
 }

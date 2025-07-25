@@ -45,16 +45,25 @@ npm run init
 
 ## NX Operate
 
-1. compiler install NX Console
+#### compiler install NX Console
 
 <img src="images/install_nx.png">
 
 ---
 
-2. create apps 
+### create apps 
 
+#### 1. choose @nx/nest application
 <img src="images/apps.png">
 
+#### 2. fill in application name 
 <img src="images/application_generate.png">
+
+#### 3. choose plugin to cover the structure witch layer the application is in
+<img src="images/plugin.png">
+
+#### 4. fill the name witch step 2 fill
+
+<img src="images/fill_plugin.png">
 
 ---

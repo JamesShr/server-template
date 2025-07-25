@@ -17,3 +17,15 @@ export {
   PrismaClientService as AccountManagementPrismaClientService,
 } from './client/account-management';
 // export type * from './client/account-management';
+
+export {
+  PrismaClientModule as PostManagementPrismaClientModule,
+  PrismaClientService as PostManagementPrismaClientService,
+} from './client/post-management';
+// export type * from './client/post-management';
+
+export {
+  PrismaClientModule as PostManagementPrismaClientModule,
+  PrismaClientService as PostManagementPrismaClientService,
+} from './client/post-management';
+// export type * from './client/post-management';

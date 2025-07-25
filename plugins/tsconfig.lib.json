@@ -8,6 +8,6 @@
     "emitDeclarationOnly": false,
     "types": ["node"]
   },
-  "include": ["src/**/*.ts", "src/generators/data-management/prisma/client/prisma-client.service.ts.template", "src/generators/data-management/prisma/client/prisma-client.module.ts.template", "src/generators/data-management/prisma/client/index.ts.template", "src/generators/data-management/files/src/main.ts.template"],
+  "include": ["src/**/*.ts", "src/generators/data-management/prisma/client/prisma-client.service.ts.template", "src/generators/data-management/prisma/client/prisma-client.module.ts.template", "src/generators/data-management/prisma/client/index.ts.template", "src/generators/data-management/files/src/main.ts.template", "src/generators/data-management/microservice/rpc.service.ts.template", "src/generators/data-management/microservice/microserviceInit.module.ts.template", "src/generators/business-service/files/src/app.controller.ts.template", "src/generators/business-service/files/src/app.module.ts.template", "src/generators/business-service/files/src/config.ts.template", "src/generators/business-service/files/src/main.ts.template", "src/generators/business-service/files/src/microservice/microservice.module.ts.template", "src/generators/api-gateway/files/src/main.ts.template"],
   "references": []
 }
