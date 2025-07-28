@@ -5,7 +5,7 @@ module.exports = {
   version,
 
   database: {
-    url: 'postgresql://user:password@localhost:6432/data_management?schema=public',
+    url: 'postgresql://user:password@localhost:6432/<%= dbName %>?schema=public',
   },
 
   redis: {
@@ -16,7 +16,7 @@ module.exports = {
   },
 
   microservice: {
-    name: 'DATA_MANAGEMENT',
+    name: '<%= rpcName %>',
     connect: {
       transport: 1, // REDIS
       options: {

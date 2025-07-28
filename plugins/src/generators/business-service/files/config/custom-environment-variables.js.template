@@ -40,8 +40,5 @@ module.exports = {
         },
       },
     },
-    dataManagement: {
-      name: 'MICROSERVICE_DATA_MANAGEMENT_NAME',
-    },
   },
 };

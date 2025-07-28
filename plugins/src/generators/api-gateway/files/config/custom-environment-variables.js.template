@@ -1,4 +1,11 @@
 module.exports = {
+  port: {
+    http: {
+      __name: 'PORT_HTTP',
+      __format: 'json',
+    },
+  },
+
   redis: {
     host: 'REDIS_HOST',
     port: {
@@ -39,9 +46,6 @@ module.exports = {
           __format: 'json',
         },
       },
-    },
-    dataManagement: {
-      name: 'MICROSERVICE_DATA_MANAGEMENT_NAME',
     },
   },
 };

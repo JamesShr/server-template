@@ -3,9 +3,8 @@ const { version } = require('../package.json');
 
 module.exports = {
   version,
-
-  database: {
-    url: 'postgresql://user:password@localhost:6432/data_management?schema=public',
+  port: {
+    http: 3000,
   },
 
   redis: {
@@ -16,7 +15,7 @@ module.exports = {
   },
 
   microservice: {
-    name: 'DATA_MANAGEMENT',
+    name: '<%= rpcName %>',
     connect: {
       transport: 1, // REDIS
       options: {
@@ -24,8 +23,8 @@ module.exports = {
         port: 6379,
         db: 0,
         password: '',
-        retryAttempts: 10, // 設定無限重試次數
-        retryDelay: 3000, // 每次重試間隔 3 秒
+        retryAttempts: 10,
+        retryDelay: 3000,
       },
     },
   },

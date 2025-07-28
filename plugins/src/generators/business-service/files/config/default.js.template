@@ -4,10 +4,6 @@ const { version } = require('../package.json');
 module.exports = {
   version,
 
-  database: {
-    url: 'postgresql://user:password@localhost:6432/data_management?schema=public',
-  },
-
   redis: {
     host: '127.0.0.1',
     port: 6379,
@@ -16,7 +12,7 @@ module.exports = {
   },
 
   microservice: {
-    name: 'DATA_MANAGEMENT',
+    name: '<%= rpcName %>',
     connect: {
       transport: 1, // REDIS
       options: {

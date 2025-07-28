@@ -66,4 +66,12 @@ npm run init
 
 <img src="images/fill_plugin.png">
 
+
+#### 5. paste cli at package.json.script
+
+```json=
+"scripts": {
+    "apps:{your_project_name}:dev": "cross-env NODE_CONFIG_DIR=./apps/{your_project_name}/config nx run {your_project_name}:serve",
+   },
+```
 ---

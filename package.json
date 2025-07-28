@@ -12,7 +12,11 @@
     "docker:up": "docker compose -p server-template -f docker-compose.yml up -d --build",
     "docker:down": "docker compose -p server-template -f docker-compose.yml down",
     "docker:infra:up": "docker compose -p server-template -f docker-compose.infra.yml up -d --build",
-    "docker:infra:down": "docker compose -p server-template -f docker-compose.infra.yml down"
+    "docker:infra:down": "docker compose -p server-template -f docker-compose.infra.yml down",
+    "prisma:deploy": "cross-env DOTENV_CONFIG_PATH=./libs/prisma/src/schema/data-management/.env npx prisma migrate deploy --schema=libs/prisma/src/schema/data-management/schema.prisma",
+    "prisma:dev": "cross-env DOTENV_CONFIG_PATH=./libs/prisma/src/schema/data-management/.env npx prisma migrate dev --name data-management  --schema=libs/prisma/src/schema/data-management/schema.prisma",
+    "prisma:generate": "cross-env DOTENV_CONFIG_PATH=./libs/prisma/src/schema/data-management/.env npx prisma generate --schema=libs/prisma/src/schema/data-management/schema.prisma",
+    "prisma:dev:create-only": "cross-env DOTENV_CONFIG_PATH=./libs/prisma/src/schema/data-management/.env npx prisma migrate dev --create-only --name data-management --schema=libs/prisma/src/schema/data-management/schema.prisma"
   },
   "private": true,
   "dependencies": {

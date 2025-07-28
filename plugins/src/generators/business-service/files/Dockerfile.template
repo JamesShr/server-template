@@ -26,7 +26,7 @@ RUN apk update && \
 COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/node_modules ./node_modules
 
-COPY --from=builder /app/config/ ./config
+COPY --from=builder /app/apps/<%= name %>/config/ ./config
 
 # # Copy prisma (if your app runs prisma CLI or uses .env)
 # COPY --from=builder /app/libs/prisma ./libs/prisma

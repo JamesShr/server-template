@@ -53,7 +53,7 @@ export default async function (tree: Tree, schema: ApplicationGeneratorSchema) {
       clearDirectory: 'src',
       copyFolder: './files',
       createDirectory: false,
-    },
+    }
   ];
 
   for (const item of items) {
