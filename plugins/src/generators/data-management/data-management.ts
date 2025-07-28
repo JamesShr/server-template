@@ -22,8 +22,7 @@ export default async function (tree: Tree, schema: ApplicationGeneratorSchema) {
   const formattedName = names(name).name;
   const rpcName = formattedName.toUpperCase().replace(/-/g, '_');
   const dbName = formattedName
-    .replace(/([a-z])([A-Z])/g, '$1_$2')
-    .toLowerCase();
+  .toLowerCase().replace(/-/g, '_');
   const moduleName = formattedName.replace(/(^|-)([a-z])/g, (match, p1, p2) =>
     p2.toUpperCase()
   ); //單字第一個字大寫，其他小寫，例如：data-management -> DataManagement
@@ -152,25 +151,4 @@ export default async function (tree: Tree, schema: ApplicationGeneratorSchema) {
 
   // 格式化生成的檔案
   await formatFiles(tree);
-
-  const schemaPath = path.resolve(
-    `libs/prisma/src/schema/${name}/schema.prisma`
-  );
-
-  // 確保 Prisma schema 文件已存在
-  if (fs.existsSync(schemaPath)) {
-    console.log(`Prisma schema for ${name} found, running migration...`);
-
-    // 執行 Prisma migrate 和生成 Prisma 客戶端
-    try {
-      execSync(`npx prisma generate --schema=${schemaPath}`, {
-        stdio: 'inherit',
-      });
-      console.log(`Prisma migration for ${name} executed successfully.`);
-    } catch (error: any) {
-      console.error(`Error executing Prisma migration for ${name}:`, error);
-    }
-  } else {
-    console.error(`Prisma schema for ${name} not found at ${schemaPath}`);
-  }
 }

@@ -19,9 +19,7 @@ export default async function (tree: Tree, schema: ApplicationGeneratorSchema) {
   // 計算不同格式的變數
   const formattedName = names(name).name;
   const rpcName = formattedName.toUpperCase().replace(/-/g, '_');
-  const dbName = formattedName
-    .replace(/([a-z])([A-Z])/g, '$1_$2')
-    .toLowerCase();
+  const dbName = formattedName.toLowerCase().replace(/-/g, '_');;
   const moduleName = formattedName.replace(/(^|-)([a-z])/g, (match, p1, p2) =>
     p2.toUpperCase()
   );
