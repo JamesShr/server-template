@@ -13,7 +13,6 @@ function safeCopy(src, dest) {
 console.log('🚀 開始初始化專案...');
 
 safeCopy('.env.example', '.env');
-safeCopy('config/default.js', 'config/local.js');
 safeCopy('pgbouncer/pgbouncer.ini.example', 'pgbouncer/pgbouncer.ini');
 safeCopy('pgbouncer/userlist.txt.example', 'pgbouncer/userlist.txt');
 

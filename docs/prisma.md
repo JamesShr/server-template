@@ -1,7 +1,19 @@
 
 - 指定某路徑下的prisma
 ```
-npx prisma migrate dev --name init --schema=libs/prisma-schema-data-management/prisma/schema.prisma
+npx prisma migrate dev --name ${input-name} --dotenv ./libs/prisma/src/schema/${input-name}/.env --schema=libs/prisma/src/schema/${input-name}/schema.prisma
+```
+
+```
+npx prisma generate --dotenv ./libs/prisma/src/schema/${input-name}/.env --schema=libs/prisma/src/schema/${input-name}/schema.prisma
+```
+
+```
+npx prisma migrate deploy --dotenv ./libs/prisma/src/schema/${input-name}/.env --schema=libs/prisma/src/schema/${input-name}/schema.prisma
+```
+
+```
+npx prisma migrate dev --create-only --name ${input-name} --dotenv ./libs/prisma/src/schema/${input-name}/.env --schema=libs/prisma/src/schema/${input-name}/schema.prisma
 ```
 # Prisma 操作與 schema 語法總整理
 

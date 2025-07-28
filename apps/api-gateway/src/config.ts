@@ -8,7 +8,7 @@ export const INFO_VERSION = config.get('version') as string;
 export const PORT_HTTP = config.get('port.http') as number;
 
 // microservices
-export const MICROSERVICE_NAME = config.get('microservice.apiGateway.name') as string;
+export const MICROSERVICE_NAME = config.get('microservice.name') as string;
 export const MICROSERVICE_CONNECT_CONF = config.get(
   'microservice.connect',
 ) as MicroserviceOptions;

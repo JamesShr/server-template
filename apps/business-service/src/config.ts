@@ -5,7 +5,7 @@ import { RedisOptions } from 'ioredis';
 export const INFO_VERSION = config.get('version') as string;
 
 // microservices
-export const MICROSERVICE_NAME = config.get('microservice.businessService.name') as string;
+export const MICROSERVICE_NAME = config.get('microservice.name') as string;
 export const MICROSERVICE_CONNECT_CONF = config.get(
   'microservice.connect',
 ) as MicroserviceOptions;

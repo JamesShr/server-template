@@ -38,15 +38,6 @@
     },
     {
       "path": "./plugins"
-    },
-    {
-      "path": "./apps/account-management"
-    },
-    {
-      "path": "./apps/device-management"
-    },
-    {
-      "path": "./apps/post-management"
     }
   ]
 }
