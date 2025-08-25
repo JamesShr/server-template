@@ -59,6 +59,7 @@
     "cross-env": "^10.0.0",
     "eslint": "^9.32.0",
     "eslint-config-prettier": "^10.1.8",
+    "javascript-obfuscator": "^4.1.1",
     "jest": "^30.0.5",
     "jest-environment-node": "^30.0.5",
     "nx": "21.3.7",

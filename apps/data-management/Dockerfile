@@ -13,6 +13,13 @@ RUN npx prisma generate --schema=libs/prisma/src/schema/data-management/schema.p
 # Build specific app (data-management)
 RUN npx nx build data-management
 
+# 混淆 ./dist -> ./dist-obf
+RUN npx javascript-obfuscator ./apps/data-management/dist --output ./apps/data-management/dist-obf \
+  --compact true \
+  --control-flow-flattening true \
+  --string-array true \
+  --string-array-encoding base64
+
 # ==== RUNTIME STAGE ====
 FROM node:lts-alpine
 
@@ -32,7 +39,7 @@ COPY --from=builder /app/apps/data-management/config/ ./config
 COPY --from=builder /app/libs/prisma ./libs/prisma
 
 # Copy built dist
-COPY --from=builder /app/apps/data-management/dist ./dist
+COPY --from=builder /app/apps/data-management/dist-obf ./dist
 
 # Optional: entry script
 COPY --from=builder /app/apps/data-management/scripts/ ./scripts

@@ -75,3 +75,11 @@ npm run init
    },
 ```
 ---
+## Package.json Script
+
+- clear nx cache
+
+```shell=
+npm run reset
+```
+

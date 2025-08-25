@@ -13,6 +13,13 @@ RUN npm install
 # Build specific app (api-gateway)
 RUN npx nx build api-gateway
 
+# 混淆 ./dist -> ./dist-obf
+RUN npx javascript-obfuscator ./apps/api-gateway/dist --output ./apps/api-gateway/dist-obf \
+  --compact true \
+  --control-flow-flattening true \
+  --string-array true \
+  --string-array-encoding base64
+
 # ==== RUNTIME STAGE ====
 FROM node:lts-alpine
 
@@ -32,7 +39,7 @@ COPY --from=builder /app/apps/api-gateway/config/ ./config
 # COPY --from=builder /app/libs/prisma ./libs/prisma
 
 # Copy built dist
-COPY --from=builder /app/apps/api-gateway/dist ./dist
+COPY --from=builder /app/apps/api-gateway/dist-obf ./dist
 
 # Optional: entry script
 COPY --from=builder /app/apps/api-gateway/scripts/ ./scripts
