@@ -1,14 +1,38 @@
 module.exports = {
-  port: {
-    http: {
-      __name: 'PORT_HTTP',
+  database: {
+    type: 'DATABASE_TYPE',
+    database: 'DATABASE_DATABASE',
+    logging: {
+      __name: 'DATABASE_LOGGING',
       __format: 'json',
+    },
+    migrationsRun: {
+      __name: 'DATABASE_MIGRATION_RUN',
+      __format: 'json',
+    },
+    cache: {
+      type: 'DATABASE_CACHE_TYPE',
+      options: {
+        connectionName: 'DATABASE_CACHE_OPTIONS_CONNECTION_NAME',
+        host: {
+          __name: 'DATABASE_CACHE_OPTIONS_HOST',
+          __format: 'json',
+        },
+        port: {
+          __name: 'DATABASE_CACHE_OPTIONS_PORT',
+          __format: 'json',
+        },
+        password: 'DATABASE_CACHE_OPTIONS_PASSWORD',
+      },
+      duration: {
+        __name: 'DATABASE_CACHE_DURATION',
+        __format: 'json',
+      },
     },
   },
 
   redis: {
     host: 'REDIS_HOST',
-    connectionName: 'REDIS_CONNECTION_NAME',
     port: {
       __name: 'REDIS_PORT',
       __format: 'json',
@@ -29,7 +53,6 @@ module.exports = {
       },
       options: {
         host: 'MICROSERVICE_CONNECT_OPTIONS_HOST',
-        connectionName: 'MICROSERVICE_CONNECT_OPTIONS_CONNECTION_NAME',
         port: {
           __name: 'MICROSERVICE_CONNECT_OPTIONS_PORT',
           __format: 'json',

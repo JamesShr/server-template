@@ -1,28 +1,39 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const { version } = require('../package.json');
+// const { version } = require('../package.json');
 
 module.exports = {
-  version,
+  version: '0.0.1',
 
   database: {
-    url: 'postgresql://user:password@localhost:6432/<%= dbName %>?schema=public',
+    type: 'sqlite',
+    database: 'records/data-typeorm-sqlite.db',
+    logging: false,
+    migrationsRun: true,
+    cache: {
+      type: 'ioredis',
+      options: {
+        connectionName: 'DATA_TYPEORM_SQLITE-DB_CACHE',
+        host: '127.0.0.1',
+        port: 6379,
+        password: '',
+      },
+      duration: 1000 * 60 * 60 * 24,
+    },
   },
 
   redis: {
     host: '127.0.0.1',
-    connectionName: '<%= rpcName %>',
     port: 6379,
     db: 0,
     password: '',
   },
 
   microservice: {
-    name: '<%= rpcName %>',
+    name: 'DATA_TYPEORM_SQLITE',
     connect: {
       transport: 1, // REDIS
       options: {
         host: '127.0.0.1',
-        connectionName: '<%= rpcName %>',
         port: 6379,
         db: 0,
         password: '',

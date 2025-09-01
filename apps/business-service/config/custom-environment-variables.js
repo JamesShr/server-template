@@ -1,6 +1,7 @@
 module.exports = {
   redis: {
     host: 'REDIS_HOST',
+    connectionName: 'REDIS_CONNECTION_NAME',
     port: {
       __name: 'REDIS_PORT',
       __format: 'json',
@@ -21,6 +22,7 @@ module.exports = {
       },
       options: {
         host: 'MICROSERVICE_CONNECT_OPTIONS_HOST',
+        connectionName: 'MICROSERVICE_CONNECT_OPTIONS_CONNECTION_NAME',
         port: {
           __name: 'MICROSERVICE_CONNECT_OPTIONS_PORT',
           __format: 'json',

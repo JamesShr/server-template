@@ -2,6 +2,7 @@
 
 # compiled output
 dist
+dist-obf
 tmp
 out-tsc
 
@@ -53,3 +54,5 @@ pgbouncer/pgbouncer.ini
 pgbouncer/userlist.txt
 
 generated
+records
+output

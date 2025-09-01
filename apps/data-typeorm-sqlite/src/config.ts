@@ -1,6 +1,9 @@
 import config from 'config';
 import { MicroserviceOptions } from '@nestjs/microservices';
 import { RedisOptions } from 'ioredis';
+import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { ENTITIES } from './entities';
+import { MIGRATIONS } from './migrations';
 
 export const INFO_VERSION = config.get('version') as string;
 
@@ -12,3 +15,10 @@ export const MICROSERVICE_CONNECT_CONF = config.get(
 
 // redis
 export const REDIS_CONFIG = config.get('redis') as RedisOptions;
+
+// ormconfig
+export const ormConfig: TypeOrmModuleOptions = {
+  ...config.get('database'),
+  entities: ENTITIES,
+  migrations: MIGRATIONS,
+};

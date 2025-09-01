@@ -5,6 +5,7 @@ module.exports = {
   version,
 
   redis: {
+    connectionName: 'BUSINESS_SERVICE',
     host: '127.0.0.1',
     port: 6379,
     db: 0,
@@ -16,6 +17,7 @@ module.exports = {
     connect: {
       transport: 1, // REDIS
       options: {
+        connectionName: 'BUSINESS_SERVICE',
         host: '127.0.0.1',
         port: 6379,
         db: 0,

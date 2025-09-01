@@ -9,6 +9,7 @@ module.exports = {
 
   redis: {
     host: '127.0.0.1',
+    connectionName: 'API_GATEWAY',
     port: 6379,
     db: 0,
     password: '',
@@ -20,6 +21,7 @@ module.exports = {
       transport: 1, // REDIS
       options: {
         host: '127.0.0.1',
+        connectionName: 'API_GATEWAY',
         port: 6379,
         db: 0,
         password: '',

@@ -38,6 +38,9 @@
     },
     {
       "path": "./plugins"
+    },
+    {
+      "path": "./apps/data-typeorm-sqlite"
     }
   ]
 }
