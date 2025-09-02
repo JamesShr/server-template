@@ -7,7 +7,12 @@ import { ormConfig } from './config';
 import { TestModule } from './modules/test/test.module';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(ormConfig), CommonModule, MicroserviceModule, TestModule],
+  imports: [
+    TypeOrmModule.forRoot(ormConfig),
+    CommonModule,
+    MicroserviceModule,
+    TestModule,
+  ],
   controllers: [AppController],
   providers: [],
 })

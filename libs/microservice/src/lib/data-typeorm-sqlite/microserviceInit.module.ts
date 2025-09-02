@@ -12,6 +12,7 @@ export class DataTypeormSqliteModule {
   static forRoot(options: {
     name: string;
     connect: MicroserviceOptions;
+    timeout: number;
   }): DynamicModule {
     const clientProxyToken = `${options.name.toUpperCase()}`;
     const clientProxyProvider: Provider = {
@@ -23,7 +24,7 @@ export class DataTypeormSqliteModule {
     const rpcServiceProvider: Provider = {
       provide: DataTypeormSqliteRpcService,
       useFactory: (client: ClientProxy) =>
-        new DataTypeormSqliteRpcService(options.name, client),
+        new DataTypeormSqliteRpcService(options.name, client, options.timeout),
       inject: [clientProxyToken],
     };
 

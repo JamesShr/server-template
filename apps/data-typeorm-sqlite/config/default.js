@@ -41,5 +41,6 @@ module.exports = {
         retryDelay: 3000, // 每次重試間隔 3 秒
       },
     },
+    timeout: 5000,
   },
 };

@@ -49,6 +49,10 @@ module.exports = {
         },
       },
     },
+    timeout: {
+      __name: 'MICROSERVICE_TIMEOUT',
+      __format: 'json',
+    },
     businessService: {
       name: 'MICROSERVICE_BUSINESS_SERVICE_NAME',
     },

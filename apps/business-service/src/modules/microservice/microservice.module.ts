@@ -1,17 +1,9 @@
 import { Module } from '@nestjs/common';
 import { DataManagementServiceModule } from '@server-template/microservice';
-import {
-  MICROSERVICE_DATA_MANAGEMENT_NAME,
-  MICROSERVICE_CONNECT_CONF,
-} from '../../config';
+import { DATA_MANAGEMENT_CONNECTION } from './connections/dataManagement';
 
 @Module({
-  imports: [
-    DataManagementServiceModule.forRoot({
-      name: MICROSERVICE_DATA_MANAGEMENT_NAME,
-      connect: MICROSERVICE_CONNECT_CONF,
-    }),
-  ],
+  imports: [DataManagementServiceModule.forRoot(DATA_MANAGEMENT_CONNECTION)],
   exports: [DataManagementServiceModule],
 })
 export class MicroserviceModule {}

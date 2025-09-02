@@ -1,5 +1,5 @@
 import config from 'config';
-import { MicroserviceOptions } from '@nestjs/microservices';
+import { TcpClientOptions } from '@nestjs/microservices';
 import { RedisOptions } from 'ioredis';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { ENTITIES } from './entities';
@@ -11,7 +11,10 @@ export const INFO_VERSION = config.get('version') as string;
 export const MICROSERVICE_NAME = config.get('microservice.name') as string;
 export const MICROSERVICE_CONNECT_CONF = config.get(
   'microservice.connect',
-) as MicroserviceOptions;
+) as TcpClientOptions;
+export const MICROSERVICE_TIMEOUT = config.get(
+  'microservice.timeout',
+) as number;
 
 // redis
 export const REDIS_CONFIG = config.get('redis') as RedisOptions;

@@ -1,18 +1,10 @@
 import { Module } from '@nestjs/common';
 import { BusinessServiceModule } from '@server-template/microservice';
 
-import {
-  MICROSERVICE_BUSINESS_SERVICE_NAME,
-  MICROSERVICE_CONNECT_CONF,
-} from '../../config';
+import { BUSINESS_SERVICE_CONNECTION } from './connections/businessService';
 
 @Module({
-  imports: [
-    BusinessServiceModule.forRoot({
-      name: MICROSERVICE_BUSINESS_SERVICE_NAME,
-      connect: MICROSERVICE_CONNECT_CONF,
-    }),
-  ],
+  imports: [BusinessServiceModule.forRoot(BUSINESS_SERVICE_CONNECTION)],
   exports: [BusinessServiceModule],
 })
 export class MicroserviceModule {}

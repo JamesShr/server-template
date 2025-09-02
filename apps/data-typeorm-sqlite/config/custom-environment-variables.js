@@ -72,5 +72,9 @@ module.exports = {
         },
       },
     },
+    timeout: {
+      __name: 'MICROSERVICE_TIMEOUT',
+      __format: 'json',
+    },
   },
 };

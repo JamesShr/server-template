@@ -42,6 +42,10 @@ module.exports = {
         },
       },
     },
+    timeout: {
+      __name: 'MICROSERVICE_TIMEOUT',
+      __format: 'json',
+    },
     dataManagement: {
       name: 'MICROSERVICE_DATA_MANAGEMENT_NAME',
     },

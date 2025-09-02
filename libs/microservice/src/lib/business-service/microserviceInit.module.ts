@@ -12,6 +12,7 @@ export class BusinessServiceModule {
   static forRoot(options: {
     name: string;
     connect: MicroserviceOptions;
+    timeout: number;
   }): DynamicModule {
     const clientProxyToken = `${options.name.toUpperCase()}`;
     const clientProxyProvider: Provider = {
@@ -23,7 +24,7 @@ export class BusinessServiceModule {
     const rpcServiceProvider: Provider = {
       provide: BusinessServiceRpcService,
       useFactory: (client: ClientProxy) =>
-        new BusinessServiceRpcService(options.name, client),
+        new BusinessServiceRpcService(options.name, client, options.timeout),
       inject: [clientProxyToken],
     };
 

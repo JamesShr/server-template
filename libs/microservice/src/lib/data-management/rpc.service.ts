@@ -14,7 +14,8 @@ import { User, Post } from '@server-template/prisma';
 export class DataManagementServiceRpcService implements OnApplicationBootstrap {
   constructor(
     private readonly name: string,
-    private readonly client: ClientProxy
+    private readonly client: ClientProxy,
+    private readonly timeout: number
   ) {}
 
   async onApplicationBootstrap() {
@@ -44,7 +45,7 @@ export class DataManagementServiceRpcService implements OnApplicationBootstrap {
   private async send(topic: string, data: any): Promise<any> {
     return await lastValueFrom(
       this.client.send(`${this.name}.${topic}`, data).pipe(
-        timeout(5000),
+        timeout(this.timeout),
         catchError((error) =>
           throwError(() => new HttpException(error.message, error.error.code))
         )
