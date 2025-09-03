@@ -19,21 +19,19 @@ export default async function (tree: Tree, schema: ApplicationGeneratorSchema) {
   // 計算不同格式的變數
   const formattedName = names(name).name;
   const rpcName = formattedName.toUpperCase().replace(/-/g, '_');
-  const dbName = formattedName
-  .toLowerCase().replace(/-/g, '_');
+  const dbName = formattedName.toLowerCase().replace(/-/g, '_');;
   const moduleName = formattedName.replace(/(^|-)([a-z])/g, (match, p1, p2) =>
     p2.toUpperCase()
-  ); //單字第一個字大寫，其他小寫，例如：data-management -> DataManagement
+  );
   const variableName = formattedName
-    .split('-') // 以連字符分割字符串
+    .split('-')
     .map((word, index) => {
-      // 將第一個單詞保持小寫，其他單詞的首字母轉大寫
       if (index === 0) {
-        return word.toLowerCase(); // 保持第一個單詞的小寫
+        return word.toLowerCase();
       }
-      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(); // 首字母大寫，其他小寫
+      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
     })
-    .join(''); //單字第一個字小寫，其他小寫，例如：data-management -> dataManagement
+    .join('');
 
   const templateOptions = {
     name: names(name).name,
@@ -53,18 +51,6 @@ export default async function (tree: Tree, schema: ApplicationGeneratorSchema) {
       clearDirectory: 'src',
       copyFolder: './files',
       createDirectory: false,
-    },
-    {
-      path: 'libs/prisma/src/schema',
-      clearDirectory: '',
-      copyFolder: './prisma/schema',
-      createDirectory: true,
-    },
-    {
-      path: 'libs/prisma/src/client',
-      clearDirectory: '',
-      copyFolder: './prisma/client',
-      createDirectory: true,
     },
     {
       path: 'libs/microservice/src/lib',
@@ -123,27 +109,6 @@ export default async function (tree: Tree, schema: ApplicationGeneratorSchema) {
     if (indexFile && !indexFile.includes(newExport)) {
       const updatedContent = `${indexFile}\n${newExport}\n`; // 在檔案末尾添加新的 export 內容
       tree.write(microserviceIndexPath, updatedContent); // 寫回檔案
-    }
-  }
-
-  // 編輯 libs/prisma/src/index.ts 補上 export 內容
-  const indexPath = joinPathFragments('libs', 'prisma', 'src', 'index.ts');
-
-  if (tree.exists(indexPath)) {
-    const indexFile = tree.read(indexPath, 'utf-8');
-
-    // 檢查檔案中是否已經有我們要添加的 export
-    const newExport = `
-          export {
-            PrismaClientModule as ${moduleName}PrismaClientModule,
-            PrismaClientService as ${moduleName}PrismaClientService,
-          } from './client/${name}';
-          // export type * from './client/${name}';
-        `;
-
-    if (indexFile && !indexFile.includes(newExport)) {
-      const updatedContent = `${indexFile}\n${newExport}\n`; // 在檔案末尾添加新的 export 內容
-      tree.write(indexPath, updatedContent); // 寫回檔案
     }
   }
 

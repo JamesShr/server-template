@@ -1,0 +1,50 @@
+module.exports = {
+  redis: {
+    host: 'REDIS_HOST',
+    connectionName: 'REDIS_CONNECTION_NAME',
+    port: {
+      __name: 'REDIS_PORT',
+      __format: 'json',
+    },
+    db: {
+      __name: 'REDIS_DB',
+      __format: 'json',
+    },
+    password: 'REDIS_PASSWORD',
+  },
+
+  microservice: {
+    name: 'MICROSERVICE_NAME',
+    connect: {
+      transport: {
+        __name: 'MICROSERVICE_CONNECT_TRANSPORT',
+        __format: 'json',
+      },
+      options: {
+        host: 'MICROSERVICE_CONNECT_OPTIONS_HOST',
+        connectionName: 'MICROSERVICE_CONNECT_OPTIONS_CONNECTION_NAME',
+        port: {
+          __name: 'MICROSERVICE_CONNECT_OPTIONS_PORT',
+          __format: 'json',
+        },
+        db: {
+          __name: 'MICROSERVICE_CONNECT_OPTIONS_DB',
+          __format: 'json',
+        },
+        password: 'MICROSERVICE_CONNECT_OPTIONS_PASSWORD',
+        retryAttempts: {
+          __name: 'MICROSERVICE_CONNECT_OPTIONS_RETRY_ATTEMPTS',
+          __format: 'json',
+        },
+        retryDelay: {
+          __name: 'MICROSERVICE_CONNECT_OPTIONS_RETRY_DELAY',
+          __format: 'json',
+        },
+      },
+    },
+    timeout: {
+      __name: 'MICROSERVICE_TIMEOUT',
+      __format: 'json',
+    },
+  },
+};

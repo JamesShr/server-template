@@ -1,0 +1,37 @@
+import { DynamicModule, Module, Provider } from '@nestjs/common';
+import {
+  ClientOptions,
+  ClientProxy,
+  ClientProxyFactory,
+  MicroserviceOptions,
+} from '@nestjs/microservices';
+import { <%= moduleName %>RpcService } from './rpc.service';
+
+@Module({})
+export class <%= moduleName %>Module {
+  static forRoot(options: {
+    name: string;
+    connect: MicroserviceOptions;
+    timeout: number;
+  }): DynamicModule {
+    const clientProxyToken = `${options.name.toUpperCase()}`;
+    const clientProxyProvider: Provider = {
+      provide: clientProxyToken,
+      useFactory: () =>
+        ClientProxyFactory.create(options.connect as ClientOptions),
+    };
+
+    const rpcServiceProvider: Provider = {
+      provide: <%= moduleName %>RpcService,
+      useFactory: (client: ClientProxy) =>
+        new <%= moduleName %>RpcService(options.name, client, options.timeout),
+      inject: [clientProxyToken],
+    };
+
+    return {
+      module: <%= moduleName %>Module,
+      providers: [clientProxyProvider, rpcServiceProvider],
+      exports: [<%= moduleName %>RpcService],
+    };
+  }
+}

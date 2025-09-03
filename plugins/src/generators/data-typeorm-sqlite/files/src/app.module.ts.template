@@ -1,0 +1,13 @@
+import { Module } from '@nestjs/common';
+import { AppController } from './app.controller';
+import { CommonModule } from './modules/common/common.module';
+import { MicroserviceModule } from './modules/microservice/microservice.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ormConfig } from './config';
+
+@Module({
+  imports: [TypeOrmModule.forRoot(ormConfig),CommonModule, MicroserviceModule],
+  controllers: [AppController],
+  providers: [],
+})
+export class AppModule {}
