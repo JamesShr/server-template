@@ -1,3 +1,8 @@
 {
-    "nxConsole.generateAiAgentRules": true
+    "nxConsole.generateAiAgentRules": true,
+     "github.copilot.chat.commitMessageGeneration.instructions": [
+        {
+            "file": ".github/prompts/copilot-commit-message-instructions.md"
+        }
+    ]
 }
