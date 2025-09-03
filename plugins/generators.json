@@ -16,8 +16,8 @@
       "description": "data-management generator"
     },
     "data-typeorm-sqlite": {
-      "factory": "./dist/generators/data-typeorm-sqlite/data-typeorm-sqlite",
-      "schema": "./dist/generators/data-typeorm-sqlite/schema.json",
+      "factory": "./src/generators/data-typeorm-sqlite/data-typeorm-sqlite",
+      "schema": "./src/generators/data-typeorm-sqlite/schema.json",
       "description": "data-typeorm-sqlite generator"
     }
   }

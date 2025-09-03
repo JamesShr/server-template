@@ -1,6 +1,7 @@
 import config from 'config';
 import { TcpClientOptions } from '@nestjs/microservices';
 import { RedisOptions } from 'ioredis';
+import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 
 export const INFO_VERSION = config.get('version') as string;
 
