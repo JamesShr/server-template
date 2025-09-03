@@ -12,7 +12,7 @@ import { MICROSERVICE_CONNECT_CONF } from './config';
 async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
     AppModule,
-    MICROSERVICE_CONNECT_CONF,
+    MICROSERVICE_CONNECT_CONF as MicroserviceOptions,
   );
   await app.listen();
   Logger.debug(`[data-management] server init`);

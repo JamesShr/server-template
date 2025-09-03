@@ -2,8 +2,8 @@ import config from 'config';
 import { TcpClientOptions } from '@nestjs/microservices';
 import { RedisOptions } from 'ioredis';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { ENTITIES } from './entities';
-import { MIGRATIONS } from './migrations';
+import { DATA_TYPEORM_SQLITE_ENTITIES } from '@server-template/typeorm-entities';
+import { DATA_TYPEORM_SQLITE_MIGRATIONS } from '@server-template/typeorm-migrations';
 
 export const INFO_VERSION = config.get('version') as string;
 
@@ -22,6 +22,6 @@ export const REDIS_CONFIG = config.get('redis') as RedisOptions;
 // ormconfig
 export const ormConfig: TypeOrmModuleOptions = {
   ...config.get('database'),
-  entities: ENTITIES,
-  migrations: MIGRATIONS,
+  entities: DATA_TYPEORM_SQLITE_ENTITIES,
+  migrations: DATA_TYPEORM_SQLITE_MIGRATIONS,
 };

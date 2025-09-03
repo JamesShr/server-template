@@ -8,17 +8,19 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "target": "es2021",
-    "noEmit": false  
+    "noEmit": false
   },
-  "include": [
-    "src/**/*.ts",
-    "src/migrations/**/*.ts",
-    "src/entities/**/*.ts"
-  ],
+  "include": ["src/**/*.ts", "src/migrations/**/*.ts", "src/entities/**/*.ts"],
   "exclude": [],
   "references": [
     {
       "path": "../../libs/redis/tsconfig.lib.json"
+    },
+    {
+      "path": "../../libs/typeorm-migrations/tsconfig.lib.json"
+    },
+    {
+      "path": "../../libs/typeorm-entities/tsconfig.lib.json"
     }
   ]
 }

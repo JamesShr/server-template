@@ -1,12 +1,12 @@
 import { DataSource, DataSourceOptions } from 'typeorm';
 import config from 'config';
-import { MIGRATIONS } from './migrations';
-import { ENTITIES } from './entities';
+import { DATA_TYPEORM_SQLITE_ENTITIES } from '@server-template/typeorm-entities';
+import { DATA_TYPEORM_SQLITE_MIGRATIONS } from '@server-template/typeorm-migrations';
 
 const ormConfig: DataSourceOptions = {
   ...config.get('database'),
-  entities: ENTITIES,
-  migrations: MIGRATIONS,
+  entities: DATA_TYPEORM_SQLITE_ENTITIES,
+  migrations: DATA_TYPEORM_SQLITE_MIGRATIONS,
 };
 
 const dataSource = new DataSource(ormConfig);
