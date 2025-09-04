@@ -1,3 +1,7 @@
+import * as path from 'path';
+if (!process.env.NODE_CONFIG_DIR) {
+  process.env.NODE_CONFIG_DIR = path.join(__dirname, '../config');
+}
 import config from 'config';
 import { TcpClientOptions } from '@nestjs/microservices';
 import { RedisOptions } from 'ioredis';
@@ -6,7 +10,7 @@ export const INFO_VERSION = config.get('version') as string;
 
 //database
 export const DATABASE_URL = config.get('database.url') as string;
-
+// console.log(DATABASE_URL)
 // microservices
 export const MICROSERVICE_NAME = config.get('microservice.name') as string;
 export const MICROSERVICE_CONNECT_CONF = config.get(

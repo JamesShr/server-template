@@ -23,6 +23,7 @@ module.exports = {
 
   redis: {
     host: '127.0.0.1',
+    connectionName:'DATA_TYPEORM_SQLITE',
     port: 6379,
     db: 0,
     password: '',

@@ -1,3 +1,12 @@
+import * as path from 'path';
+if (!process.env.NODE_CONFIG_DIR) {
+  if (process.env.POSITION === 'relative') {
+    process.env.NODE_CONFIG_DIR = path.join(__dirname, '../config');
+  } else {
+    process.env.NODE_CONFIG_DIR = path.join(process.cwd(), '../config');
+  }
+}
+
 import config from 'config';
 import { TcpClientOptions } from '@nestjs/microservices';
 import { RedisOptions } from 'ioredis';

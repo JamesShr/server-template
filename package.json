@@ -5,10 +5,6 @@
   "scripts": {
     "init": "node init.js",
     "reset": "nx reset",
-    "apps:api-gateway:dev": "cross-env NODE_CONFIG_DIR=./apps/api-gateway/config nx run api-gateway:serve",
-    "apps:business-service:dev": "cross-env NODE_CONFIG_DIR=./apps/business-service/config nx run business-service:serve",
-    "apps:data-management:dev": "cross-env NODE_CONFIG_DIR=./apps/data-management/config nx run data-management:serve",
-    "apps:data-typeorm-sqlite:dev": "cross-env NODE_CONFIG_DIR=./apps/data-typeorm-sqlite/config nx run data-typeorm-sqlite:serve",
     "docker:dev": "docker compose -p server-template -f docker-compose.yml up",
     "docker:up": "docker compose -p server-template -f docker-compose.yml up -d --build",
     "docker:down": "docker compose -p server-template -f docker-compose.yml down",

@@ -1,3 +1,7 @@
+import * as path from 'path';
+if (!process.env.NODE_CONFIG_DIR) {
+  process.env.NODE_CONFIG_DIR = path.join(__dirname, '../config');
+}
 import config from 'config';
 import { TcpClientOptions } from '@nestjs/microservices';
 import { RedisOptions } from 'ioredis';
