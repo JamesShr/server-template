@@ -21,6 +21,8 @@ npm ci
 npm run init
 ```
 
+## [Nx CLI](./docs/nx-cli.md)
+
 ## Structure
 
 ### Layer

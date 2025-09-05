@@ -5,6 +5,9 @@
   "scripts": {
     "init": "node init.js",
     "reset": "nx reset",
+    "graph": "nx graph",
+    "format": "nx format:write --all",
+    "test":"npx nx run-many --all --target=test",
     "docker:dev": "docker compose -p server-template -f docker-compose.yml up",
     "docker:up": "docker compose -p server-template -f docker-compose.yml up -d --build",
     "docker:down": "docker compose -p server-template -f docker-compose.yml down",
