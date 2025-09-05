@@ -1,5 +1,18 @@
 # Nx CLI
 
+## INIT
+
+### install
+```shell=
+npm i -g nx
+```
+
+### init project
+```
+npx create-nx-workspace
+```
+
+--- 
 <p> use `--dry-run ` flag to check generate file path</p>
 <p> ex : npx nx generate @server-template/plugins:template --name=mailer --no-interactive --dry-run </p>
 
