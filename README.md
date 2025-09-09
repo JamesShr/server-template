@@ -53,13 +53,35 @@ npm run init
 
 ---
 
-### create apps 
+### create plugin (plugins)
+
+```shell=
+npm i @nx/plugin
+```
+
+#### 1. init plugin framework
+<img src="images/create_plugin_framework.png">
+
+#### 2. create plugin generator
+<img src="images/create_plugin_generator.png">
+
+#### 3. edit plugins\generators.json factory and schema path dist to src
+
+#### 4. paste the files you want to cover at files folder
+
+#### 5. edit File extension to .template (ex: main.ts -> main.ts.template)
+
+#### 6. edit file content you want to replace to <%= name %> 
+
+#### 7. edit the {generator_name}.ts to edit the script
+
+### create application (apps)
 
 #### 1. choose @nx/nest application
 <img src="images/apps.png">
 
 #### 2. fill in application name 
-<img src="images/application_generate.png">
+<img src="images/application_generate_2.png">
 
 #### 3. choose plugin to cover the structure witch layer the application is in
 <img src="images/plugin.png">
@@ -68,14 +90,9 @@ npm run init
 
 <img src="images/fill_plugin.png">
 
+### create library (libs)
 
-#### 5. paste cli at package.json.script
 
-```json=
-"scripts": {
-    "apps:{your_project_name}:dev": "cross-env NODE_CONFIG_DIR=./apps/{your_project_name}/config nx run {your_project_name}:serve",
-   },
-```
 ---
 ## Package.json Script
 
