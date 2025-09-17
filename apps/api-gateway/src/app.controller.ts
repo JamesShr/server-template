@@ -9,6 +9,6 @@ export class AppController {
 
   @Get()
   getData() {
-    return INFO_VERSION;
+    return { version: INFO_VERSION, time: Date.now() };
   }
 }
