@@ -3,12 +3,10 @@ FROM node:lts-alpine AS builder
 
 WORKDIR /app
 
+# 先裝完整依賴（含 dev）才能執行 Nx/webpack/obfuscator
 COPY . .
 
-RUN npm install
-
-# # Optional: Only generate client for specific services
-# RUN npx prisma generate --schema=libs/prisma/src/schema/data-management/schema.prisma
+RUN npm ci
 
 # Build specific app (api-gateway)
 RUN npx nx build api-gateway
@@ -20,36 +18,40 @@ RUN npx javascript-obfuscator ./apps/api-gateway/dist --output ./apps/api-gatewa
   --string-array true \
   --string-array-encoding base64
 
-# ==== RUNTIME STAGE ====
-FROM node:lts-alpine
+
+# ==== RUNTIME DEPS STAGE ====
+FROM node:lts-alpine AS deps
 
 WORKDIR /app
 
-# 建議仍保留 dumb-init / ssh / postgresql-client 等
-RUN apk update && \
-    apk add --no-cache dumb-init openssh-client sshpass postgresql-client bash
+# 從 builder 複製修剪後的 package.json（Nx prune 會輸出到 dist 下）
+COPY --from=builder /app/apps/api-gateway/dist/package*.json ./
 
-# Copy runtime dependencies
-COPY --from=builder /app/package*.json ./
-COPY --from=builder /app/node_modules ./node_modules
+# 只安裝 runtime deps
+RUN npm ci --omit=dev
 
-COPY --from=builder /app/apps/api-gateway/config/ ./config
 
-# # Copy prisma (if your app runs prisma CLI or uses .env)
-# COPY --from=builder /app/libs/prisma ./libs/prisma
+# ==== FINAL RUNTIME STAGE ====
+FROM node:lts-alpine AS runner
 
-# Copy built dist
-COPY --from=builder /app/apps/api-gateway/dist-obf ./dist
+WORKDIR /app
 
-# Optional: entry script
-COPY --from=builder /app/apps/api-gateway/scripts/ ./scripts
-RUN chmod +x ./scripts/*.sh
+# 安裝一些常用工具（可選）
+RUN apk add --no-cache dumb-init bash postgresql-client openssh-client sshpass
 
-# 若有 uploads 或其他資料夾也要預設建立好
-RUN mkdir -p /app/uploads && chown -R node:node /app/uploads
+# 複製 runtime node_modules
+COPY --from=deps /app/node_modules ./node_modules
 
-# 使用 node user 啟動
+# 複製設定檔、程式碼
+COPY --from=builder /app/apps/api-gateway/config ./config
+COPY --from=builder /app/apps/api-gateway/dist-obf/main.js ./dist/main.js
+COPY --from=builder /app/apps/api-gateway/dist/package*.json ./
+COPY --from=builder /app/apps/api-gateway/scripts ./scripts
+
+RUN chmod +x ./scripts/*.sh \
+    && mkdir -p /app/uploads \
+    && chown -R node:node /app
+
 USER node
 
-# Entry
 ENTRYPOINT ["/usr/bin/dumb-init", "--", "./scripts/entry.sh"]
