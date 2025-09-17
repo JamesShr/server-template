@@ -40,6 +40,12 @@
             "buildTarget": "business-service:build:production"
           }
         }
+      },
+       "docker-build": {
+        "dependsOn": [
+          "build"
+        ],
+        "command": "docker build -f apps/business-service/Dockerfile . -t server-template-business-service"
       }
     }
   }

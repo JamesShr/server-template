@@ -40,6 +40,12 @@
             "buildTarget": "data-management:build:production"
           }
         }
+      },
+      "docker-build": {
+        "dependsOn": [
+          "build"
+        ],
+        "command": "docker build -f apps/data-management/Dockerfile . -t server-template-data-management"
       }
     }
   }
