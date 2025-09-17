@@ -52,6 +52,12 @@
             "buildTarget": "data-typeorm-sqlite:build:production"
           }
         }
+      },
+      "docker-build": {
+        "dependsOn": [
+          "build"
+        ],
+        "command": "docker build -f apps/data-typeorm-sqlite/Dockerfile . -t server-template-data-typeorm-sqlite"
       }
     }
   }
