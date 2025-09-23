@@ -9,3 +9,9 @@ Dockerfile
 docker-compose.yml
 generated
 local.js
+docs
+images
+.vscode
+.nx
+.github
+.cursor

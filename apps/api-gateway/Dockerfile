@@ -1,12 +1,12 @@
 # ==== BUILD STAGE ====
-FROM node:lts-alpine AS builder
+FROM server-template/base:local AS builder
 
-WORKDIR /app
+WORKDIR /workspace
 
-# 先裝完整依賴（含 dev）才能執行 Nx/webpack/obfuscator
-COPY . .
+# # copy app source
+# COPY apps/api-gateway ./apps/api-gateway
 
-RUN npm ci
+# RUN npm ci
 
 # Build specific app (api-gateway)
 RUN npx nx build api-gateway
@@ -25,7 +25,7 @@ FROM node:lts-alpine AS deps
 WORKDIR /app
 
 # 從 builder 複製修剪後的 package.json（Nx prune 會輸出到 dist 下）
-COPY --from=builder /app/apps/api-gateway/dist/package*.json ./
+COPY --from=builder /workspace/apps/api-gateway/dist/package*.json ./
 
 # 只安裝 runtime deps
 RUN npm ci --omit=dev
@@ -43,10 +43,10 @@ RUN apk add --no-cache dumb-init bash postgresql-client openssh-client sshpass
 COPY --from=deps /app/node_modules ./node_modules
 
 # 複製設定檔、程式碼
-COPY --from=builder /app/apps/api-gateway/config ./config
-COPY --from=builder /app/apps/api-gateway/dist-obf/main.js ./dist/main.js
-COPY --from=builder /app/apps/api-gateway/dist/package*.json ./
-COPY --from=builder /app/apps/api-gateway/scripts ./scripts
+COPY --from=builder /workspace/apps/api-gateway/config ./config
+COPY --from=builder /workspace/apps/api-gateway/dist-obf/main.js ./dist/main.js
+COPY --from=builder /workspace/apps/api-gateway/dist/package*.json ./
+COPY --from=builder /workspace/apps/api-gateway/scripts ./scripts
 
 RUN chmod +x ./scripts/*.sh \
     && mkdir -p /app/uploads \

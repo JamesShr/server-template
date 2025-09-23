@@ -1,11 +1,11 @@
 # ==== BUILD STAGE ====
-FROM node:lts-alpine AS builder
+FROM server-template/base:local AS builder
 
-WORKDIR /app
+WORKDIR /workspace
 
-COPY . .
+# COPY . .
 
-RUN npm install
+# RUN npm install
 
 # # Optional: Only generate client for specific services
 # RUN npx prisma generate --schema=libs/prisma/src/schema/data-management/schema.prisma
@@ -20,33 +20,37 @@ RUN npx javascript-obfuscator ./apps/business-service/dist --output ./apps/busin
   --string-array true \
   --string-array-encoding base64
 
-# ==== RUNTIME STAGE ====
-FROM node:lts-alpine
+# ==== RUNTIME DEPS STAGE ====
+FROM node:lts-alpine AS deps
+
+WORKDIR /app
+
+# 從 builder 複製修剪後的 package.json（Nx prune 會輸出到 dist 下）
+COPY --from=builder /workspace/apps/business-service/dist/package*.json ./
+
+# 只安裝 runtime deps
+RUN npm ci --omit=dev
+
+# ==== FINAL RUNTIME STAGE ====
+FROM node:lts-alpine AS runner
 
 WORKDIR /app
 
 # 建議仍保留 dumb-init / ssh / postgresql-client 等
-RUN apk update && \
-    apk add --no-cache dumb-init openssh-client sshpass postgresql-client bash
+RUN apk add --no-cache dumb-init bash postgresql-client openssh-client sshpass
+
+# 複製 runtime node_modules
+COPY --from=deps /app/node_modules ./node_modules
 
 # Copy runtime dependencies
-COPY --from=builder /app/package*.json ./
-COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /workspace/apps/business-service/config ./config
+COPY --from=builder /workspace/apps/business-service/dist-obf/main.js ./dist/main.js
+COPY --from=builder /workspace/apps/business-service/dist/package*.json ./
+COPY --from=builder /workspace/apps/business-service/scripts ./scripts
 
-COPY --from=builder /app/apps/business-service/config/ ./config
-
-# # Copy prisma (if your app runs prisma CLI or uses .env)
-# COPY --from=builder /app/libs/prisma ./libs/prisma
-
-# Copy built dist
-COPY --from=builder /app/apps/business-service/dist-obf ./dist
-
-# Optional: entry script
-COPY --from=builder /app/apps/business-service/scripts/ ./scripts
-RUN chmod +x ./scripts/*.sh
-
-# 若有 uploads 或其他資料夾也要預設建立好
-RUN mkdir -p /app/uploads && chown -R node:node /app/uploads
+RUN chmod +x ./scripts/*.sh \
+    && mkdir -p /app/uploads \
+    && chown -R node:node /app
 
 # 使用 node user 啟動
 USER node
