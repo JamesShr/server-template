@@ -63,8 +63,8 @@ jobs:
     needs: build-base   # ⬅ 這個 key 就能保證 base 跑完才跑 apps
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0   # 把整個 commit history 抓下來
+        # with:
+        #   fetch-depth: 0   # 把整個 commit history 抓下來
 
       # 1️⃣ Cache npm
       - name: Cache npm
@@ -85,14 +85,15 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build & Push affected apps
-        env:
-          BASE_SHA: ${{ github.event.before }}
-          HEAD_SHA: ${{ github.sha }}
-        run: |
-          # 有些情況（分支新建/force push）BASE_SHA 會是全 0，要兜底處理
-          if [ -z "$BASE_SHA" ] || [ "$BASE_SHA" = "0000000000000000000000000000000000000000" ]; then
-            git fetch --depth=2 origin "${GITHUB_REF_NAME}"
-            BASE_SHA="$(git rev-parse HEAD~1)"
-          fi
-          echo "Diff range: $BASE_SHA..$HEAD_SHA"
-          npx nx affected -t staging-docker-build --base="$BASE_SHA" --head="$HEAD_SHA"
+        # env:
+        #   BASE_SHA: ${{ github.event.before }}
+        #   HEAD_SHA: ${{ github.sha }}
+        # run: |
+        #   # 有些情況（分支新建/force push）BASE_SHA 會是全 0，要兜底處理
+        #   if [ -z "$BASE_SHA" ] || [ "$BASE_SHA" = "0000000000000000000000000000000000000000" ]; then
+        #     git fetch --depth=2 origin "${GITHUB_REF_NAME}"
+        #     BASE_SHA="$(git rev-parse HEAD~1)"
+        #   fi
+        #   echo "Diff range: $BASE_SHA..$HEAD_SHA"
+        #   npx nx affected -t staging-docker-build --base="$BASE_SHA" --head="$HEAD_SHA"
+        run: npx nx affected -t staging-docker-build --base=origin/main --head=HEAD
