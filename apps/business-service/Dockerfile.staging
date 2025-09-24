@@ -1,5 +1,5 @@
 # ==== BUILD STAGE ====
-FROM server-template/base:staging AS builder
+FROM jamesshi/nx-base:staging AS builder
 
 WORKDIR /workspace
 
