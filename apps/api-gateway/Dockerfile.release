@@ -1,0 +1,58 @@
+# ==== BUILD STAGE ====
+ARG BASE_VERSION
+FROM jamesshi/nx-base:${BASE_VERSION} AS builder
+
+WORKDIR /workspace
+
+# # copy app source
+# COPY apps/api-gateway ./apps/api-gateway
+
+# RUN npm ci
+
+# Build specific app (api-gateway)
+RUN npx nx build api-gateway
+
+# 混淆 ./dist -> ./dist-obf
+RUN npx javascript-obfuscator ./apps/api-gateway/dist --output ./apps/api-gateway/dist-obf \
+  --compact true \
+  --control-flow-flattening true \
+  --string-array true \
+  --string-array-encoding base64
+
+
+# ==== RUNTIME DEPS STAGE ====
+FROM node:lts-alpine AS deps
+
+WORKDIR /app
+
+# 從 builder 複製修剪後的 package.json（Nx prune 會輸出到 dist 下）
+COPY --from=builder /workspace/apps/api-gateway/dist/package*.json ./
+
+# 只安裝 runtime deps
+RUN npm ci --omit=dev
+
+
+# ==== FINAL RUNTIME STAGE ====
+FROM node:lts-alpine AS runner
+
+WORKDIR /app
+
+# 安裝一些常用工具（可選）
+RUN apk add --no-cache dumb-init bash postgresql-client openssh-client sshpass
+
+# 複製 runtime node_modules
+COPY --from=deps /app/node_modules ./node_modules
+
+# 複製設定檔、程式碼
+COPY --from=builder /workspace/apps/api-gateway/config ./config
+COPY --from=builder /workspace/apps/api-gateway/dist-obf/main.js ./dist/main.js
+COPY --from=builder /workspace/apps/api-gateway/dist/package*.json ./
+COPY --from=builder /workspace/apps/api-gateway/scripts ./scripts
+
+RUN chmod +x ./scripts/*.sh \
+    && mkdir -p /app/uploads \
+    && chown -R node:node /app
+
+USER node
+
+ENTRYPOINT ["/usr/bin/dumb-init", "--", "./scripts/entry.sh"]
