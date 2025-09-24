@@ -50,6 +50,9 @@
           "build"
         ],
         "command": "docker build -f apps/api-gateway/Dockerfile . -t server-template-api-gateway"
+      },
+      "github-staging-docker-build": {
+        "command": "docker build -f apps/api-gateway/Dockerfile . -t $DOCKER_REGISTRY/$DOCKERHUB_USERNAME/api-gateway:$IMAGE_TAG_SHA -t $DOCKER_REGISTRY/$DOCKERHUB_USERNAME/api-gateway:$IMAGE_TAG_CHANNEL && docker push $DOCKER_REGISTRY/$DOCKERHUB_USERNAME/api-gateway:$GITHUB_SHA && docker push $DOCKER_REGISTRY/$DOCKERHUB_USERNAME/api-gateway:IMAGE_TAG_CHANNEL"
       }
     }
   }
