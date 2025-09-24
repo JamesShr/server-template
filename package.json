@@ -7,7 +7,7 @@
     "reset": "nx reset",
     "graph": "nx graph",
     "format": "nx format:write --all",
-    "affected:apps": " npx nx show projects --affected --type=app",
+    "affected:apps": "npx nx show projects --affected --type=app",
     "docker-base:local":"docker build -f Dockerfile.base -t server-template/base:local .",
     "test": "npx nx run-many --all --target=test",
     "docker:dev": "docker compose -p server-template -f docker-compose.yml up",
