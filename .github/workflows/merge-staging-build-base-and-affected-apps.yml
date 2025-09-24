@@ -63,6 +63,8 @@ jobs:
     needs: build-base   # ⬅ 這個 key 就能保證 base 跑完才跑 apps
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # 把整個 commit history 抓下來
 
       # 1️⃣ Cache npm
       - name: Cache npm
