@@ -49,6 +49,9 @@
       },
       "github-staging-docker-build": {
         "command": "docker build -f apps/business-service/Dockerfile.staging . -t $DOCKER_REGISTRY/$DOCKERHUB_USERNAME/business-service:$IMAGE_TAG_CHANNEL && docker push $DOCKER_REGISTRY/$DOCKERHUB_USERNAME/business-service:$IMAGE_TAG_CHANNEL"
+      },
+      "github-release-tag-docker-build":{
+         "command": "docker build -f apps/business-service/Dockerfile.release . -t $DOCKER_REGISTRY/$DOCKERHUB_USERNAME/business-service:$IMAGE_TAG_CHANNEL && docker push $DOCKER_REGISTRY/$DOCKERHUB_USERNAME/business-service:$IMAGE_TAG_CHANNEL"
       }
     }
   }

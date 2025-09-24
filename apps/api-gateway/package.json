@@ -53,6 +53,9 @@
       },
       "github-staging-docker-build": {
         "command": "docker build -f apps/api-gateway/Dockerfile.staging .  -t $DOCKER_REGISTRY/$DOCKERHUB_USERNAME/api-gateway:$IMAGE_TAG_CHANNEL && docker push $DOCKER_REGISTRY/$DOCKERHUB_USERNAME/api-gateway:$IMAGE_TAG_CHANNEL"
+      },
+      "github-release-tag-docker-build": {
+        "command": "docker build -f apps/api-gateway/Dockerfile.release .  -t $DOCKER_REGISTRY/$DOCKERHUB_USERNAME/api-gateway:$IMAGE_TAG_CHANNEL && docker push $DOCKER_REGISTRY/$DOCKERHUB_USERNAME/api-gateway:$IMAGE_TAG_CHANNEL"
       }
     }
   }
