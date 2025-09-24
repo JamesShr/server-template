@@ -1,4 +1,5 @@
 # ==== BUILD STAGE ====
+ARG BASE_VERSION
 FROM jamesshi/nx-base:${BASE_VERSION} AS builder
 
 WORKDIR /workspace
