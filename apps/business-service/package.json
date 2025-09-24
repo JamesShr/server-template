@@ -46,6 +46,9 @@
           "build"
         ],
         "command": "docker build -f apps/business-service/Dockerfile . -t server-template-business-service"
+      },
+      "github-staging-docker-build": {
+        "command": "docker build -f apps/business-service/Dockerfile . -t $DOCKER_REGISTRY/$DOCKERHUB_USERNAME/business-service:$IMAGE_TAG_SHA -t $DOCKER_REGISTRY/$DOCKERHUB_USERNAME/business-service:$IMAGE_TAG_CHANNEL  && docker push $DOCKER_REGISTRY/$DOCKERHUB_USERNAME/business-service:$GITHUB_SHA && docker push $DOCKER_REGISTRY/$DOCKERHUB_USERNAME/business-service:IMAGE_TAG_CHANNEL"
       }
     }
   }
