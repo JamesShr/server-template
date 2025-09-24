@@ -97,4 +97,4 @@ jobs:
         #   fi
         #   echo "Diff range: $BASE_SHA..$HEAD_SHA"
         #   npx nx affected -t staging-docker-build --base="$BASE_SHA" --head="$HEAD_SHA"
-        run: npx nx affected -t staging-docker-build --base=origin/main --head=HEAD
+        run: npx nx affected -t github-staging-docker-build --base=origin/main --head=HEAD
