@@ -5,9 +5,6 @@ WORKDIR /workspace
 
 # copy workspace config
 COPY . .
-# COPY package*.json nx.json tsconfig.base.json ./
-# COPY libs ./libs
-# COPY apps ./apps
 
 # install all deps
 RUN npm ci
