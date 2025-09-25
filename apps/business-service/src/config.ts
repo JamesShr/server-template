@@ -5,6 +5,7 @@ if (!process.env.NODE_CONFIG_DIR) {
 import config from 'config';
 import { TcpClientOptions } from '@nestjs/microservices';
 import { RedisOptions } from 'ioredis';
+import { QueueType } from '@server-template/queue';
 
 export const INFO_VERSION = config.get('version') as string;
 
@@ -22,3 +23,7 @@ export const MICROSERVICE_DATA_MANAGEMENT_NAME = config.get(
 
 // redis
 export const REDIS_CONFIG = config.get('redis') as RedisOptions;
+
+// queue
+
+export const QUEUE_TYPE = config.get<QueueType>('queue.type') as QueueType;

@@ -31,4 +31,8 @@ module.exports = {
       name: 'DATA_MANAGEMENT',
     },
   },
+
+  queue:{
+    type: 'redis', // or kafka
+  }
 };
