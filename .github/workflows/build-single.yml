@@ -1,0 +1,65 @@
+name: Single App Build & Push
+
+on:
+  workflow_dispatch:
+    inputs:
+      app:
+        description: '要打包的 app 名稱（例如 @api/api-gateway）'
+        required: true
+        type: choice
+        options:
+          - 'api-gateway'
+          - 'business-service'
+      version:
+        description: '版本號（例如 dev-0.0.12 或 1.2.3）'
+        required: true
+        type: string
+
+jobs:
+  build-single:
+    runs-on: ubuntu-latest
+
+    env:
+      DOCKER_REGISTRY: docker.io
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+      IMAGE_TAG_CHANNEL: ${{ github.event.inputs.version }}
+      APP_NAME: ${{ github.event.inputs.app }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      # - name: Cache npm
+      #   uses: actions/cache@v4
+      #   with:
+      #     path: ~/.npm
+      #     key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-node-
+
+      # - name: Install dependencies
+      #   run: npm ci
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ env.DOCKERHUB_USERNAME }}
+          password: ${{ env.DOCKERHUB_TOKEN }}
+
+      # 👇 關鍵步驟：只打包指定的 app
+      - name: Build & Push selected app
+        # run: |
+        #   echo "🚀 Building $APP_NAME with tag $IMAGE_TAG_CHANNEL"
+        #   npx nx run $APP_NAME:github-release-tag-docker-build --skip-nx-cache
+        run: |
+          echo "🚀 Building $APP_NAME with tag $IMAGE_TAG_CHANNEL"
+          docker build \
+            --build-arg BASE_VERSION=$IMAGE_TAG_CHANNEL \
+            --build-arg DOCKERHUB_USERNAME=$DOCKERHUB_USERNAME \
+            -f apps/$APP_NAME/Dockerfile.release . \
+            -t $DOCKER_REGISTRY/$DOCKERHUB_USERNAME/$APP_NAME:$IMAGE_TAG_CHANNEL
+          docker push $DOCKER_REGISTRY/$DOCKERHUB_USERNAME/$APP_NAME:$IMAGE_TAG_CHANNEL

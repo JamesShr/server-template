@@ -11,8 +11,37 @@
         "$source": "argv",
         "index": 0
       },
-      "x-prompt": "What name would you like to use?"
+      "x-prompt": {
+        "message": "Which app?",
+        "type": "list",
+        "items": [
+          {
+            "value": "api-gateway",
+            "label": "api-gateway"
+          },
+          {
+            "value": "business-service",
+            "label": "business-service"
+          },
+          {
+            "value": "data-management",
+            "label": "data-management"
+          },
+          {
+            "value": "data-typeorm-sqlite",
+            "label": "data-typeorm-sqlite"
+          }
+        ]
+      },
+      "enum": [
+        "api-gateway",
+        "business-service",
+        "data-management",
+        "data-typeorm-sqlite"
+      ]
     }
   },
-  "required": ["name"]
+  "required": [
+    "name"
+  ]
 }

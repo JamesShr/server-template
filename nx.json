@@ -40,7 +40,8 @@
         "libs/responses/*",
         "libs/prisma/*",
         "libs/typeorm-entities/*",
-        "libs/typeorm-migrations/*"
+        "libs/typeorm-migrations/*",
+        "libs/queue/*"
       ]
     },
     {
@@ -84,7 +85,8 @@
         "libs/responses/*",
         "libs/prisma/*",
         "libs/typeorm-entities/*",
-        "libs/typeorm-migrations/*"
+        "libs/typeorm-migrations/*",
+        "libs/queue/*"
       ],
       "options": {
         "typecheck": {

@@ -13,6 +13,9 @@
   "exclude": [],
   "references": [
     {
+      "path": "../../libs/queue/tsconfig.lib.json"
+    },
+    {
       "path": "../../libs/redis/tsconfig.lib.json"
     },
     {

@@ -3,6 +3,12 @@ FROM server-template/base:local AS builder
 
 WORKDIR /workspace
 
+# 🚫 關閉 Nx daemon、互動模式與 spinner
+ENV NX_DAEMON=false
+ENV NX_SKIP_NX_CACHE=true
+ENV CI=true
+ENV NODE_OPTIONS="--max-old-space-size=4096"
+
 # COPY . .
 
 # RUN npm install
@@ -13,15 +19,15 @@ WORKDIR /workspace
 # Build specific app (business-service)
 RUN npx nx build business-service
 
-# 混淆 ./dist -> ./dist-obf
-RUN npx javascript-obfuscator ./apps/business-service/dist --output ./apps/business-service/dist-obf \
-  --compact true \
-  --control-flow-flattening true \
-  --string-array true \
-  --string-array-encoding base64
+# # 混淆 ./dist -> ./dist-obf
+# RUN npx javascript-obfuscator ./apps/business-service/dist --output ./apps/business-service/dist-obf \
+#   --compact true \
+#   --control-flow-flattening true \
+#   --string-array true \
+#   --string-array-encoding base64
 
 # ==== RUNTIME DEPS STAGE ====
-FROM node:lts-alpine AS deps
+FROM server-template/base:local AS deps
 
 WORKDIR /app
 
@@ -44,13 +50,11 @@ COPY --from=deps /app/node_modules ./node_modules
 
 # Copy runtime dependencies
 COPY --from=builder /workspace/apps/business-service/config ./config
-COPY --from=builder /workspace/apps/business-service/dist-obf/main.js ./dist/main.js
+COPY --from=builder /workspace/apps/business-service/dist/main.js ./dist/main.js
 COPY --from=builder /workspace/apps/business-service/dist/package*.json ./
 COPY --from=builder /workspace/apps/business-service/scripts ./scripts
 
-RUN chmod +x ./scripts/*.sh \
-    && mkdir -p /app/uploads \
-    && chown -R node:node /app
+RUN chmod +x ./scripts/*.sh
 
 # 使用 node user 啟動
 USER node

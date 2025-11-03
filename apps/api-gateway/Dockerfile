@@ -3,6 +3,12 @@ FROM server-template/base:local AS builder
 
 WORKDIR /workspace
 
+# 🚫 關閉 Nx daemon、互動模式與 spinner
+ENV NX_DAEMON=false
+ENV NX_SKIP_NX_CACHE=true
+ENV CI=true
+ENV NODE_OPTIONS="--max-old-space-size=4096"
+
 # # copy app source
 # COPY apps/api-gateway ./apps/api-gateway
 
@@ -11,16 +17,16 @@ WORKDIR /workspace
 # Build specific app (api-gateway)
 RUN npx nx build api-gateway
 
-# 混淆 ./dist -> ./dist-obf
-RUN npx javascript-obfuscator ./apps/api-gateway/dist --output ./apps/api-gateway/dist-obf \
-  --compact true \
-  --control-flow-flattening true \
-  --string-array true \
-  --string-array-encoding base64
+# # 混淆 ./dist -> ./dist-obf
+# RUN npx javascript-obfuscator ./apps/api-gateway/dist --output ./apps/api-gateway/dist-obf \
+#   --compact true \
+#   --control-flow-flattening true \
+#   --string-array true \
+#   --string-array-encoding base64
 
 
 # ==== RUNTIME DEPS STAGE ====
-FROM node:lts-alpine AS deps
+FROM server-template/base:local AS deps
 
 WORKDIR /app
 
@@ -32,7 +38,7 @@ RUN npm ci --omit=dev
 
 
 # ==== FINAL RUNTIME STAGE ====
-FROM node:lts-alpine AS runner
+FROM node:22.17.1-alpine AS runner
 
 WORKDIR /app
 
@@ -44,13 +50,13 @@ COPY --from=deps /app/node_modules ./node_modules
 
 # 複製設定檔、程式碼
 COPY --from=builder /workspace/apps/api-gateway/config ./config
-COPY --from=builder /workspace/apps/api-gateway/dist-obf/main.js ./dist/main.js
+COPY --from=builder /workspace/apps/api-gateway/dist/main.js ./dist/main.js
 COPY --from=builder /workspace/apps/api-gateway/dist/package*.json ./
 COPY --from=builder /workspace/apps/api-gateway/scripts ./scripts
 
 RUN chmod +x ./scripts/*.sh \
     && mkdir -p /app/uploads \
-    && chown -R node:node /app
+    && chown -R node:node /app/uploads
 
 USER node
 

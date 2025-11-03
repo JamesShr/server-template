@@ -47,6 +47,9 @@
     },
     {
       "path": "./libs/typeorm-migrations"
+    },
+    {
+      "path": "./libs/queue"
     }
   ]
 }

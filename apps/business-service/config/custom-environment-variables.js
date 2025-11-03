@@ -50,4 +50,8 @@ module.exports = {
       name: 'MICROSERVICE_DATA_MANAGEMENT_NAME',
     },
   },
+
+  queue:{
+    type: 'QUEUE_TYPE', 
+  }
 };
