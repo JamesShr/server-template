@@ -50,6 +50,12 @@
           "build"
         ],
         "command": "docker build -f apps/api-gateway/Dockerfile . -t server-template-api-gateway"
+      },
+      "github-staging-docker-build": {
+        "command": "docker build -f apps/api-gateway/Dockerfile.staging .  -t $DOCKER_REGISTRY/$DOCKERHUB_USERNAME/api-gateway:$IMAGE_TAG_CHANNEL && docker push $DOCKER_REGISTRY/$DOCKERHUB_USERNAME/api-gateway:$IMAGE_TAG_CHANNEL"
+      },
+      "github-release-tag-docker-build": {
+        "command": "docker build --build-arg BASE_VERSION=$IMAGE_TAG_CHANNEL -f apps/api-gateway/Dockerfile.release .  -t $DOCKER_REGISTRY/$DOCKERHUB_USERNAME/api-gateway:$IMAGE_TAG_CHANNEL && docker push $DOCKER_REGISTRY/$DOCKERHUB_USERNAME/api-gateway:$IMAGE_TAG_CHANNEL"
       }
     }
   }

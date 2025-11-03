@@ -2,12 +2,13 @@ import {
   Injectable,
   // Inject,
   Logger,
+  OnModuleDestroy,
 } from '@nestjs/common';
 import { Redis, RedisOptions } from 'ioredis';
 // import { Subject } from 'rxjs';
 
 @Injectable()
-export class RedisService {
+export class RedisService implements OnModuleDestroy{
   private client!: Redis;
   //   private sub: Redis;
   private connectOption: RedisOptions;
@@ -46,4 +47,11 @@ export class RedisService {
   //   getExpireSubject(): Subject<string> {
   //     return this.expireSubject;
   //   }
+
+  async onModuleDestroy() {
+    if (this.client) {
+      await this.client.quit();
+      Logger.debug(`Redis connection closed.`);
+    }
+  }
 }

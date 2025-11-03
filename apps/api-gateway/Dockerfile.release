@@ -1,5 +1,6 @@
 # ==== BUILD STAGE ====
-FROM server-template/base:local AS builder
+ARG BASE_VERSION
+FROM jamesshi/nx-base:${BASE_VERSION} AS builder
 
 WORKDIR /workspace
 
@@ -26,7 +27,7 @@ RUN npx nx build api-gateway
 
 
 # ==== RUNTIME DEPS STAGE ====
-FROM server-template/base:local AS deps
+FROM jamesshi/nx-base:${BASE_VERSION} AS deps
 
 WORKDIR /app
 

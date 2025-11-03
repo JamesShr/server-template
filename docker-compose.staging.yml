@@ -1,0 +1,101 @@
+services:
+  api-gateway:
+    image: docker.io/jamesshi/api-gateway:staging
+    environment:
+      - PORT_HTTP=3000
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_DB=0
+      - REDIS_PASSWORD=password
+      - MICROSERVICE_NAME=API_GATEWAY
+      - MICROSERVICE_CONNECT_TRANSPORT=1
+      - MICROSERVICE_CONNECT_OPTIONS_HOST=redis
+      - MICROSERVICE_CONNECT_OPTIONS_PORT=6379
+      - MICROSERVICE_CONNECT_OPTIONS_DB=0
+      - MICROSERVICE_CONNECT_OPTIONS_PASSWORD=password
+      - MICROSERVICE_CONNECT_OPTIONS_RETRY_ATTEMPTS=10
+      - MICROSERVICE_CONNECT_OPTIONS_RETRY_DELAY=3000
+      - MICROSERVICE_BUSINESS_SERVICE_NAME=BUSINESS_SERVICE
+      - NODE_ENV=production
+    ports:
+      - 13000:3000
+    depends_on:
+      # - pgbouncer
+      - redis
+
+  business-service:
+    image: docker.io/jamesshi/business-service:staging
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_DB=0
+      - REDIS_PASSWORD=password
+      - MICROSERVICE_NAME=BUSINESS_SERVICE
+      - MICROSERVICE_CONNECT_TRANSPORT=1
+      - MICROSERVICE_CONNECT_OPTIONS_HOST=redis
+      - MICROSERVICE_CONNECT_OPTIONS_PORT=6379
+      - MICROSERVICE_CONNECT_OPTIONS_DB=0
+      - MICROSERVICE_CONNECT_OPTIONS_PASSWORD=password
+      - MICROSERVICE_CONNECT_OPTIONS_RETRY_ATTEMPTS=10
+      - MICROSERVICE_CONNECT_OPTIONS_RETRY_DELAY=3000
+      - MICROSERVICE_BUSINESS_SERVICE_NAME=BUSINESS_SERVICE
+      - MICROSERVICE_DATA_MANAGEMENT_NAME=DATA_MANAGEMENT
+      - NODE_ENV=production
+    depends_on:
+      # - pgbouncer
+      - redis
+
+  # data-management:
+  #   build:
+  #     context: .
+  #     dockerfile: apps/data-management/Dockerfile
+  #   image: data-management
+  #   environment:
+  #     - REDIS_HOST=redis
+  #     - REDIS_PORT=6379
+  #     - REDIS_DB=0
+  #     - REDIS_PASSWORD=password
+  #     - DATABASE_URL=postgresql://user:password@pgbouncer:6432/data_management # remove ?schema=public for pgbouncer 
+  #     - DATABASE_HOST=pgbouncer
+  #     - DATABASE_PORT=6432
+  #     - DATABASE_USERNAME=user
+  #     - DATABASE_PASSWORD=password
+  #     - DATABASE_DB=data_management
+  #     - MICROSERVICE_NAME=DATA_MANAGEMENT
+  #     - MICROSERVICE_CONNECT_TRANSPORT=1
+  #     - MICROSERVICE_CONNECT_OPTIONS_HOST=redis
+  #     - MICROSERVICE_CONNECT_OPTIONS_PORT=6379
+  #     - MICROSERVICE_CONNECT_OPTIONS_DB=0
+  #     - MICROSERVICE_CONNECT_OPTIONS_PASSWORD=password
+  #     - MICROSERVICE_CONNECT_OPTIONS_RETRY_ATTEMPTS=10
+  #     - MICROSERVICE_CONNECT_OPTIONS_RETRY_DELAY=3000
+  #     - MICROSERVICE_DATA_MANAGEMENT_NAME=DATA_MANAGEMENT
+  #     - NODE_ENV=production
+  #   depends_on:
+  #     - pgbouncer
+  #     - redis
+
+  # db:
+  #   image: timescale/timescaledb:latest-pg12
+  #   environment:
+  #     - POSTGRES_USER=user
+  #     - POSTGRES_PASSWORD=password
+  #     - POSTGRES_DB=db
+  #   expose:
+  #     - 5432
+
+  # pgbouncer:
+  #   image: edoburu/pgbouncer
+  #   ports:
+  #     - "6432:6432"
+  #   volumes:
+  #     - ./pgbouncer/pgbouncer.ini:/etc/pgbouncer/pgbouncer.ini
+  #     - ./pgbouncer/userlist.txt:/etc/pgbouncer/userlist.txt
+  #   command: ["pgbouncer", "/etc/pgbouncer/pgbouncer.ini"]
+  #   depends_on:
+  #     - db
+
+  redis:
+    image: redis:latest
+    ports:
+      - 16379:6379

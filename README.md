@@ -43,13 +43,13 @@ npm run init
     - It also handles database connection pooling, indexing, and other database optimizations to ensure the performance and integrity of data. The Database Management layer is typically abstracted through services like `PrismaService` to keep database interactions separated from business logic.
 
 
-<img src="images/MicroserviceStructure.jpg">
+<img src="docs/images/MicroserviceStructure.jpg">
 
 ## NX Operate
 
 #### compiler install NX Console
 
-<img src="images/install_nx.png">
+<img src="docs/images/install_nx.png">
 
 ---
 
@@ -60,10 +60,10 @@ npm i @nx/plugin
 ```
 
 #### 1. init plugin framework
-<img src="images/create_plugin_framework.png">
+<img src="docs/images/create_plugin_framework.png">
 
 #### 2. create plugin generator
-<img src="images/create_plugin_generator.png">
+<img src="docs/images/create_plugin_generator.png">
 
 #### 3. edit plugins\generators.json factory and schema path dist to src
 
@@ -78,17 +78,17 @@ npm i @nx/plugin
 ### create application (apps)
 
 #### 1. choose @nx/nest application
-<img src="images/apps.png">
+<img src="docs/images/apps.png">
 
 #### 2. fill in application name 
-<img src="images/application_generate_2.png">
+<img src="docs/images/application_generate_2.png">
 
 #### 3. choose plugin to cover the structure witch layer the application is in
-<img src="images/plugin.png">
+<img src="docs/images/plugin.png">
 
 #### 4. fill the name witch step 2 fill
 
-<img src="images/fill_plugin.png">
+<img src="docs/images/fill_plugin.png">
 
 ### create library (libs)
 
