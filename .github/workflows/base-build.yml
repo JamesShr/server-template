@@ -1,0 +1,38 @@
+name: Docker Base Image Build
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Base image 版本號（例如 dev-0.0.12 或 1.2.3）'
+        required: true
+        type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.set-version.outputs.version }}
+    steps:
+      - name: 🧾 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🏗️ Prepare build
+        id: set-version
+        run: echo "version=${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
+
+      - name: 🧱 Build docker image (no push)
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: Dockerfile.base
+          push: false
+          tags: nx-base:${{ github.event.inputs.version }}
+
+  push:
+    needs: build
+    uses: ./.github/workflows/base-push.yml
+    with:
+      image_name: nx-base
+      version: ${{ needs.build.outputs.version }}
+    secrets: inherit    # 將登入 dockerhub 的憑證傳給被呼叫端
