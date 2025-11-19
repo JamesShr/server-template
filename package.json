@@ -8,7 +8,7 @@
     "graph": "nx graph",
     "format": "nx format:write --all",
     "affected:apps": "npx nx show projects --affected --type=app",
-    "docker-base:local":"docker build -f Dockerfile.base -t server-template/base:local .",
+    "docker-base:local": "docker build -f Dockerfile.base -t server-template/base:local .",
     "update-generator": "ts-node tools/update-generator-schema.ts",
     "test": "npx nx run-many --all --target=test",
     "docker:dev": "docker compose -p server-template -f docker-compose.yml up",
@@ -35,10 +35,12 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.2",
     "config": "^4.1.1",
+    "glob": "^11.1.0",
     "ioredis": "^5.8.2",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2",
     "sqlite3": "^5.1.7",
+    "tar-fs": "^3.1.1",
     "typeorm": "^0.3.27"
   },
   "devDependencies": {
