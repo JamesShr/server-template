@@ -1,0 +1,55 @@
+name: Trivy Scan (from SBOM)
+
+on:
+  workflow_run:
+    workflows: ["Validate SBOM (CycloneDX)"]
+    types: [completed]
+
+jobs:
+  trivy-scan:
+    runs-on: ubuntu-latest
+
+    permissions:
+      actions: read
+      contents: read
+
+    steps:
+      # 1️⃣ 下載上一步驗證後的 SBOM artifact
+      - name: Download validated SBOM
+        uses: actions/download-artifact@v4
+        with:
+          name: server-template-sbom-validated
+          path: ./sbom
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ github.token }}
+
+      # 2️⃣ 安裝 Trivy CLI（官方 Action 的 sbom 模式也可用）
+      - name: Install Trivy
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wget apt-transport-https gnupg lsb-release
+          wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
+          echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee /etc/apt/sources.list.d/trivy.list
+          sudo apt-get update
+          sudo apt-get install -y trivy
+
+      # 3️⃣ 執行漏洞掃描
+      - name: Run Trivy scan (JSON + HTML)
+        run: |
+          echo "🔍 Running Trivy SBOM scan (JSON)..."
+          trivy sbom ./sbom/server-template.cyclonedx.json \
+            -f json \
+            -o trivy_report.json || true
+
+          echo "🧾 Running Trivy SBOM scan (HTML)..."
+          trivy sbom ./sbom/server-template.cyclonedx.json --format template --template "@/usr/local/share/trivy/templates/html.tpl" -o trivy_report.html || true
+
+      # 4️⃣ 上傳兩個檔案：Trivy 掃描報告 + SBOM 檔
+      - name: Upload combined artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivy-scan-results
+          path: |
+            trivy_report.json
+            trivy_report.html
+            ./sbom/server-template.cyclonedx.json
